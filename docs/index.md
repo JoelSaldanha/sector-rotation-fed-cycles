@@ -1,2 +1,11 @@
+# Team The Bosses
 
-<h1> Hello </h1>
+## Members
+
+- [Name 1]
+- [Name 2]
+- [Name 3]
+
+## Project ideas
+
+We're still deciding! Check back soon.
