@@ -1,4 +1,5 @@
-# Git it done
+# Git it done:  
+https://github.com/lse-ds105/group-project-git-it-done
 
 ## Members
 
