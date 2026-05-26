@@ -6,6 +6,7 @@
   <title>Sector Rotation and the Fed — DS105W Group Project</title>
   <meta name="description" content="Analysis of US equity sector returns across Federal Reserve rate cycles, 2000-2026.">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
 </head>
 <body>
 
@@ -57,13 +58,41 @@
     <h2>Cyclicals lead in hiking cycles, defensives lead in cutting cycles</h2>
 
     <figure class="chart-figure">
+  <div id="finding1-chart" class="plotly-chart" role="img" aria-label="Interactive bar chart showing annualised sector returns during Fed hiking and cutting cycles. Technology, Utilities, Industrials, Consumer Discretionary and Financials post higher returns under hiking. Health Care and Real Estate post higher returns under cutting.">
+    <noscript>
       <img src="figures/sector_returns_by_cycle.png"
-           alt="Bar chart showing annualised sector returns during Fed hiking and cutting cycles. Technology, Utilities, Industrials, Consumer Discretionary and Financials all post higher returns under hiking. Health Care and Real Estate flip the other way and earn higher returns under cutting."
-           loading="lazy">
-      <figcaption>
-        Annualised returns by sector, 2000&ndash;2026. Hiking and cutting cycles only; neutral excluded (see Limitations).
-      </figcaption>
-    </figure>
+           alt="Bar chart showing annualised sector returns during Fed hiking and cutting cycles.">
+    </noscript>
+  </div>
+  <figcaption>
+    Annualised returns by sector, 2000&ndash;2026. Hover any bar to see the exact figure. Hiking and cutting cycles only; neutral excluded (see Limitations).
+  </figcaption>
+</figure>
+<details class="data-table-toggle">
+  <summary>View the underlying numbers</summary>
+  <table class="data-table">
+    <caption>Annualised returns by sector and Fed regime, 2000&ndash;2026</caption>
+    <thead>
+      <tr>
+        <th scope="col">Sector</th>
+        <th scope="col">Hiking</th>
+        <th scope="col">Cutting</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row">Technology</th><td>12.9%</td><td>1.9%</td></tr>
+      <tr><th scope="row">Utilities</th><td>10.9%</td><td>5.2%</td></tr>
+      <tr><th scope="row">Industrials</th><td>10.7%</td><td>4.0%</td></tr>
+      <tr><th scope="row">Consumer Discretionary</th><td>10.5%</td><td>5.7%</td></tr>
+      <tr><th scope="row">Financials</th><td>9.3%</td><td>&minus;1.6%</td></tr>
+      <tr><th scope="row">Materials</th><td>7.8%</td><td>8.2%</td></tr>
+      <tr><th scope="row">Energy</th><td>7.6%</td><td>12.2%</td></tr>
+      <tr><th scope="row">Consumer Staples</th><td>7.1%</td><td>6.9%</td></tr>
+      <tr><th scope="row">Health Care</th><td>5.5%</td><td>10.2%</td></tr>
+      <tr><th scope="row">Real Estate</th><td>2.2%</td><td>14.9%</td></tr>
+    </tbody>
+  </table>
+</details>
 
     <p>
       The split runs cleanly along sector cyclicality. <strong>Technology, Utilities, Industrials, Consumer Discretionary and Financials</strong> all post higher annualised returns under hiking than cutting. Technology and Financials show the widest gap (around 11 percentage points each), and Financials is the only sector with a negative cutting-cycle return at &minus;1.6%.
@@ -107,6 +136,87 @@
       <p><a href="https://github.com/lse-ds105/group-project-git-it-done">github.com/lse-ds105/group-project-git-it-done</a></p>
     </div>
   </footer>
+<script>
+    // ============================================
+    // FINDING 1 CHART: hiking vs cutting bar chart
+    // Data hard-coded from cycle_returns.csv (NB03 output)
+    // ============================================
+    (function () {
+      var sectors = [
+        'Technology',
+        'Utilities',
+        'Industrials',
+        'Consumer Discretionary',
+        'Financials',
+        'Materials',
+        'Energy',
+        'Consumer Staples',
+        'Health Care',
+        'Real Estate'
+      ];
 
+      var hikingReturns = [12.9, 10.9, 10.7, 10.5, 9.3, 7.8, 7.6, 7.1, 5.5, 2.2];
+      var cuttingReturns = [1.9, 5.2, 4.0, 5.7, -1.6, 8.2, 12.2, 6.9, 10.2, 14.9];
+
+      var hikingTrace = {
+        x: sectors,
+        y: hikingReturns,
+        name: 'Hiking',
+        type: 'bar',
+        marker: { color: '#2ca02c' },
+        hovertemplate: '<b>%{x}</b><br>Hiking: %{y:.1f}%<extra></extra>'
+      };
+
+      var cuttingTrace = {
+        x: sectors,
+        y: cuttingReturns,
+        name: 'Cutting',
+        type: 'bar',
+        marker: { color: '#c0392b' },
+        hovertemplate: '<b>%{x}</b><br>Cutting: %{y:.1f}%<extra></extra>'
+      };
+
+      var layout = {
+        title: {
+          text: 'Cyclicals lead in hiking cycles; defensives and REITs lead in cutting cycles',
+          font: { family: 'Georgia, serif', size: 16, color: '#1a1a1a' },
+          x: 0,
+          xanchor: 'left'
+        },
+        barmode: 'group',
+        bargap: 0.25,
+        bargroupgap: 0.08,
+        margin: { l: 60, r: 20, t: 70, b: 100 },
+        xaxis: {
+          tickangle: -30,
+          tickfont: { family: 'system-ui, sans-serif', size: 12, color: '#555' },
+          showgrid: false
+        },
+        yaxis: {
+          title: { text: 'Annualised return (%)', font: { family: 'system-ui, sans-serif', size: 12, color: '#555' } },
+          gridcolor: '#e5e5e0',
+          zerolinecolor: '#1a1a1a',
+          tickfont: { family: 'system-ui, sans-serif', size: 11, color: '#555' }
+        },
+        legend: {
+          x: 1,
+          xanchor: 'right',
+          y: 1.05,
+          orientation: 'h',
+          font: { family: 'system-ui, sans-serif', size: 12 }
+        },
+        plot_bgcolor: '#fafaf7',
+        paper_bgcolor: '#fafaf7',
+        hoverlabel: { bgcolor: '#0a2540', font: { color: '#fff', family: 'system-ui, sans-serif' } }
+      };
+
+      var config = {
+        responsive: true,
+        displayModeBar: false  // hide the toolbar for a cleaner look
+      };
+
+      Plotly.newPlot('finding1-chart', [hikingTrace, cuttingTrace], layout, config);
+    })();
+  </script>
 </body>
 </html>

@@ -330,6 +330,14 @@ a:focus:not(:focus-visible) {
   background-color: #fff;
 }
 
+.plotly-chart {
+  width: 100%;
+  min-height: 450px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-background);
+}
+
 .chart-figure figcaption {
   margin-top: var(--space-sm);
   font-size: 0.85rem;
@@ -362,6 +370,64 @@ a:focus:not(:focus-visible) {
 
 .callout-inline a:hover {
   border-bottom-width: 2px;
+}
+
+/* ============================================
+   DATA TABLE TOGGLE
+   Collapsed numeric view for accessibility
+   ============================================ */
+
+.data-table-toggle {
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-md);
+  font-size: 0.9rem;
+}
+
+.data-table-toggle summary {
+  cursor: pointer;
+  color: var(--color-accent);
+  font-weight: 600;
+  padding: var(--space-xs) 0;
+  user-select: none;
+}
+
+.data-table-toggle summary:hover {
+  text-decoration: underline;
+}
+
+.data-table {
+  width: 100%;
+  margin-top: var(--space-sm);
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  font-family: var(--font-mono);
+}
+
+.data-table caption {
+  text-align: left;
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-xs);
+  font-family: var(--font-sans);
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.4rem 0.75rem;
+  text-align: right;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.data-table th[scope="col"] {
+  background-color: var(--color-callout-bg);
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.data-table th[scope="row"] {
+  text-align: left;
+  font-weight: 500;
+  color: var(--color-text);
 }
 
 /* ============================================
