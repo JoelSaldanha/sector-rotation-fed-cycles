@@ -567,7 +567,7 @@ ALPHA_VANTAGE_KEY=your_alpha_vantage_key_here</code></pre>
             font: {
               family: 'system-ui, sans-serif',
               size: 12,
-              color: Math.abs(z[i][j]) > 25 ? '#fff' : '#1a1a1a'
+              color: z[i][j] > 12 || z[i][j] < -1 ? '#fff' : '#1a1a1a'
             }
           });
         }
