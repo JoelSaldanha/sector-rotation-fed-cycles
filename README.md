@@ -2,6 +2,8 @@
 
 # Sector Rotation & Federal Reserve Rate Cycles
 
+**Live website:** https://lse-ds105.github.io/group-project-git-it-done/
+
 Python data pipeline analysing US equity sector rotation across Federal Reserve rate cycles | FRED & Alpha Vantage APIs | SQLite | GitHub Pages
 
 **Research Question:** How do US equity sector returns vary across Federal Reserve rate hiking and cutting cycles, and which sectors consistently rotate into outperformance as monetary policy shifts?
@@ -65,11 +67,13 @@ Rather than repeating macro context across all ten sector rows, we store it once
 
 ## Visualisations
 
-Three figures in `docs/figures/` are embedded in the GitHub Pages site:
+Three interactive Plotly charts on the [live website](https://lse-ds105.github.io/group-project-git-it-done/):
 
 1. **Bar chart** — annualised return per sector grouped by hiking vs cutting cycle, sorted left-to-right by hiking performance. Neutral regime excluded (41 months, clustered in late-cycle bull runs; see NB03 Decision 5).
 2. **Heatmap** — full sector × cycle matrix with conditional formatting. Includes the neutral column and the XLRE small-sample caveat.
 3. **Fed Funds timeline** — Federal Funds Rate plotted over time with shaded regime periods. Shows that every cutting cycle in the sample (2001, 2008–09, 2020) coincides with a recession.
+
+Static PNG fallbacks for each chart are in `docs/figures/` for users with JavaScript disabled.
 
 ## Limitations
 
@@ -115,13 +119,15 @@ repo/
 │       ├── sector_rotation.db  # SQLite database (NB02 output)
 │       └── analysis/           # cycle_returns.csv, sector_cycle_pivot.csv (NB03 output)
 ├── docs/
-│   ├── index.md                # GitHub Pages narrative website
-│   └── figures/                # PNG charts (NB03 output)
+│   ├── index.html              # GitHub Pages custom HTML website
+│   ├── style.css               # Website styling
+│   └── figures/                # PNG fallbacks for noscript
 ├── notebooks/
 │   ├── NB01_collect.ipynb
 │   ├── NB02-Data-Transformation.ipynb
 │   └── NB03_analyse.ipynb
 ├── reflections/                # one .md per team member
+├── requirements.txt            # Pinned Python dependencies for reproduction
 └── README.md
 ```
   
