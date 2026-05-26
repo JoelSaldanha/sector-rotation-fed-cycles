@@ -342,6 +342,10 @@ a:focus:not(:focus-visible) {
   min-height: 600px;
 }
 
+#finding3-chart {
+  min-height: 480px;
+}
+
 .chart-figure figcaption {
   margin-top: var(--space-sm);
   font-size: 0.85rem;
