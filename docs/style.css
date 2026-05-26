@@ -618,6 +618,36 @@ a:focus:not(:focus-visible) {
 }
 
 /* ============================================
+   REFERENCES LIST
+   Academic-style hanging-indent bibliography
+   ============================================ */
+
+.references-list {
+  list-style: none;
+  margin: var(--space-md) 0;
+  padding-left: 0;
+}
+
+.references-list li {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--color-text);
+  padding-left: var(--space-md);
+  text-indent: calc(-1 * var(--space-md));
+  margin-bottom: var(--space-sm);
+}
+
+.references-list li a {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-accent-light);
+}
+
+.references-list li a:hover {
+  border-bottom-width: 2px;
+}
+
+/* ============================================
    RESPONSIVE: collapse sidebar on narrow screens
    ============================================ */
 
