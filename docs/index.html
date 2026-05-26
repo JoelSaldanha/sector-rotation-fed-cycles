@@ -503,10 +503,13 @@
         },
         margin: { l: 60, r: 20, t: 70, b: 50 },
         xaxis: {
+          type: 'date',
           tickfont: { family: 'system-ui, sans-serif', size: 11, color: '#555' },
           showgrid: false,
           showline: true,
-          linecolor: '#e5e5e0'
+          linecolor: '#e5e5e0',
+          tickformat: '%Y',
+          dtick: 'M24'
         },
         yaxis: {
           title: { text: 'Federal Funds Rate (%)', font: { family: 'system-ui, sans-serif', size: 12, color: '#555' } },
