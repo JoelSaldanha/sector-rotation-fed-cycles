@@ -279,6 +279,10 @@ a:focus:not(:focus-visible) {
 .prose-section p:last-child {
   margin-bottom: 0;
 }
+.prose-section p strong {
+  color: var(--color-accent);
+  font-weight: 600;
+}
 
 /* ============================================
    ABSTRACT CALLOUT
