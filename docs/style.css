@@ -338,6 +338,10 @@ a:focus:not(:focus-visible) {
   background-color: var(--color-background);
 }
 
+#finding2-chart {
+  min-height: 600px;
+}
+
 .chart-figure figcaption {
   margin-top: var(--space-sm);
   font-size: 0.85rem;

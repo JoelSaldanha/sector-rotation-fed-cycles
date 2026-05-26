@@ -111,6 +111,66 @@
     </p>
   </section>
 
+  <!-- FINDING 2: heatmap of full sector x cycle matrix -->
+  <section id="finding-2" class="prose-section">
+    <p class="section-label">Finding 2</p>
+    <h2>Cyclicals and defensives are mirror images across regimes</h2>
+
+    <p>
+      The bar chart above strips the story down. The heatmap below shows the full picture, with the neutral column included for transparency.
+    </p>
+
+    <figure class="chart-figure">
+      <div id="finding2-chart" class="plotly-chart" role="img" aria-label="Heatmap of annualised sector returns across cutting, neutral and hiking Fed regimes. Cell colour ranges from red for low returns to green for high returns. Real Estate has the highest cutting-cycle return at 14.9% and the lowest hiking-cycle return at 2.2%. Financials shows the opposite pattern with a negative cutting-cycle return.">
+        <noscript>
+          <img src="figures/sector_cycle_heatmap.png" alt="Heatmap of annualised sector returns by Fed regime.">
+        </noscript>
+      </div>
+      <figcaption>
+        Annualised returns by sector and Fed regime, 2000&ndash;2026. Hover any cell to see the exact figure. Real Estate's cutting figure (14.9%) reflects the 2020 COVID episode alone, since XLRE only launched in October 2015.
+      </figcaption>
+    </figure>
+
+    <details class="data-table-toggle">
+      <summary>View the underlying numbers</summary>
+      <table class="data-table">
+        <caption>Annualised returns by sector and Fed regime, 2000&ndash;2026</caption>
+        <thead>
+          <tr>
+            <th scope="col">Sector</th>
+            <th scope="col">Cutting</th>
+            <th scope="col">Neutral</th>
+            <th scope="col">Hiking</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Technology</th><td>1.9%</td><td>28.8%</td><td>12.9%</td></tr>
+          <tr><th scope="row">Utilities</th><td>5.2%</td><td>19.0%</td><td>10.9%</td></tr>
+          <tr><th scope="row">Industrials</th><td>4.0%</td><td>32.2%</td><td>10.7%</td></tr>
+          <tr><th scope="row">Consumer Discretionary</th><td>5.7%</td><td>30.6%</td><td>10.5%</td></tr>
+          <tr><th scope="row">Financials</th><td>&minus;1.6%</td><td>37.7%</td><td>9.3%</td></tr>
+          <tr><th scope="row">Materials</th><td>8.2%</td><td>23.2%</td><td>7.8%</td></tr>
+          <tr><th scope="row">Energy</th><td>12.2%</td><td>30.6%</td><td>7.6%</td></tr>
+          <tr><th scope="row">Consumer Staples</th><td>6.9%</td><td>17.3%</td><td>7.1%</td></tr>
+          <tr><th scope="row">Health Care</th><td>10.2%</td><td>17.2%</td><td>5.5%</td></tr>
+          <tr><th scope="row">Real Estate</th><td>14.9%</td><td>14.7%</td><td>2.2%</td></tr>
+        </tbody>
+      </table>
+    </details>
+
+    <p>
+      The hiking and cutting columns are roughly mirror images. Sectors that lead in hiking tend to lag in cutting and vice versa. <strong>Real Estate</strong> is the clearest case, at 2.2% in hiking and 14.9% in cutting (the highest cutting cell in the table). <strong>Financials</strong> shows the same flip at the other end, leading in hiking at 9.3% and posting the only negative figure in cutting at &minus;1.6%.
+    </p>
+
+    <p>
+      The neutral column is the highest for nine of the ten sectors. That isn't really telling us anything about how sectors behave in neutral periods. The 41 months in the neutral bucket happen to cluster in calm late-cycle bull runs that lifted almost everything, so the column ends up flattering every sector indiscriminately. <a href="#limitations">Limitations</a> covers the reasoning.
+    </p>
+
+    <p class="callout-inline">
+      The Real Estate cutting figure (14.9%) reflects the 2020 COVID episode alone, since XLRE did not exist during the 2001 or 2008&ndash;09 cutting cycles. Treat it as one event rather than a pattern. See <a href="#limitations">Limitations</a> for the full XLRE caveat.
+    </p>
+  </section>
+
 </main>
 
     <nav class="sidebar-nav" aria-label="Page navigation">
@@ -216,6 +276,118 @@
       };
 
       Plotly.newPlot('finding1-chart', [hikingTrace, cuttingTrace], layout, config);
+    })();
+  </script>
+  <script>
+    // ============================================
+    // FINDING 2 CHART: sector x cycle heatmap
+    // Data hard-coded from cycle_returns.csv (NB03 output)
+    // ============================================
+    (function () {
+      // Order: sorted by hiking-cycle return descending (top = highest hiking)
+      var sectors = [
+        'Real Estate',
+        'Health Care',
+        'Consumer Staples',
+        'Energy',
+        'Materials',
+        'Financials',
+        'Consumer Discretionary',
+        'Industrials',
+        'Utilities',
+        'Technology'
+      ];
+
+      var cycles = ['Cutting', '<i>Neutral</i>', 'Hiking'];
+
+      // z is a 2D array: rows = sectors (in sectors order), cols = cycles (in cycles order)
+      // Each value is the annualised return (%)
+      var z = [
+        [14.9, 14.7, 2.2],   // Real Estate
+        [10.2, 17.2, 5.5],   // Health Care
+        [6.9, 17.3, 7.1],    // Consumer Staples
+        [12.2, 30.6, 7.6],   // Energy
+        [8.2, 23.2, 7.8],    // Materials
+        [-1.6, 37.7, 9.3],   // Financials
+        [5.7, 30.6, 10.5],   // Consumer Discretionary
+        [4.0, 32.2, 10.7],   // Industrials
+        [5.2, 19.0, 10.9],   // Utilities
+        [1.9, 28.8, 12.9]    // Technology
+      ];
+
+      var heatmapTrace = {
+        x: cycles,
+        y: sectors,
+        z: z,
+        type: 'heatmap',
+        colorscale: 'RdYlGn',
+        zmid: 0,
+        showscale: true,
+        hovertemplate: '<b>%{y}</b><br>%{x}: %{z:.1f}%<extra></extra>',
+        colorbar: {
+          title: { text: 'Return (%)', font: { family: 'system-ui, sans-serif', size: 11, color: '#555' } },
+          tickfont: { family: 'system-ui, sans-serif', size: 10, color: '#555' },
+          thickness: 12,
+          len: 0.75
+        }
+      };
+
+      // Add text annotations (the cell values themselves) for accessibility + scan-readability
+      var annotations = [];
+      for (var i = 0; i < sectors.length; i++) {
+        for (var j = 0; j < cycles.length; j++) {
+          annotations.push({
+            x: cycles[j],
+            y: sectors[i],
+            text: z[i][j].toFixed(1) + '%',
+            showarrow: false,
+            font: {
+              family: 'system-ui, sans-serif',
+              size: 12,
+              color: Math.abs(z[i][j]) > 25 ? '#fff' : '#1a1a1a'
+            }
+          });
+        }
+      }
+
+      var layout = {
+        title: {
+          text: 'Hiking and cutting columns are roughly mirror images',
+          font: { family: 'Georgia, serif', size: 16, color: '#1a1a1a' },
+          x: 0,
+          xanchor: 'left'
+        },
+        margin: { l: 180, r: 80, t: 70, b: 50 },
+        xaxis: {
+          side: 'top',
+          tickfont: { family: 'system-ui, sans-serif', size: 12, color: '#555' }
+        },
+        yaxis: {
+          tickfont: { family: 'system-ui, sans-serif', size: 12, color: '#555' },
+          autorange: 'reversed'
+        },
+        annotations: annotations.concat([{
+          xref: 'paper',
+          yref: 'paper',
+          x: 0,
+          y: 1.08,
+          xanchor: 'left',
+          yanchor: 'bottom',
+          text: '<i>Neutral column shown for transparency only — see Limitations for why it overstates returns.</i>',
+          showarrow: false,
+          font: { family: 'system-ui, sans-serif', size: 11, color: '#6a6a6a' }
+        }]),
+        plot_bgcolor: '#fafaf7',
+        paper_bgcolor: '#fafaf7',
+        hoverlabel: { bgcolor: '#0a2540', font: { color: '#fff', family: 'system-ui, sans-serif' } }
+      };
+
+      var config = {
+        responsive: true,
+        displayModeBar: false
+      };
+
+      Plotly.newPlot('finding2-chart', [heatmapTrace], layout, config);
     })();
   </script>
 </body>
