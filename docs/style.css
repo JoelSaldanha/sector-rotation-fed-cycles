@@ -239,6 +239,128 @@ a:focus:not(:focus-visible) {
 }
 
 /* ============================================
+   SECTION COMPONENTS
+   ============================================ */
+
+.section-label {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+  padding-bottom: 0;
+  border-bottom: none;
+  line-height: 1.65;
+}
+
+.prose-section {
+  margin-bottom: var(--space-xl);
+}
+
+.prose-section h2 {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.prose-section p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+}
+
+.prose-section p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   ABSTRACT CALLOUT
+   Distinct styling: tinted bg, left border accent
+   ============================================ */
+
+.abstract {
+  background-color: var(--color-callout-bg);
+  border-left: 4px solid var(--color-callout-border);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  border-radius: 0 4px 4px 0;
+}
+
+.abstract p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+}
+
+.abstract p:last-child {
+  margin-bottom: 0;
+}
+
+.abstract strong {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* ============================================
+   FIGURES (charts and tables)
+   ============================================ */
+
+.chart-figure {
+  margin: var(--space-lg) 0;
+}
+
+.chart-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  background-color: #fff;
+}
+
+.chart-figure figcaption {
+  margin-top: var(--space-sm);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--color-text-subtle);
+  font-style: italic;
+  text-align: center;
+}
+
+/* ============================================
+   INLINE CALLOUTS
+   Subtle distinction for sidebar-style notes within prose
+   ============================================ */
+
+.callout-inline {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  padding: var(--space-sm) var(--space-md);
+  border-left: 3px solid var(--color-border);
+  background-color: rgba(240, 242, 247, 0.4);
+  margin-top: var(--space-md);
+  border-radius: 0 4px 4px 0;
+}
+
+.callout-inline a {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-accent-light);
+}
+
+.callout-inline a:hover {
+  border-bottom-width: 2px;
+}
+
+/* ============================================
    RESPONSIVE: collapse sidebar on narrow screens
    ============================================ */
 

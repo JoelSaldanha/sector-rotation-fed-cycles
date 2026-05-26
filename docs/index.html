@@ -29,11 +29,60 @@
   <div class="layout container">
 
     <main class="content" id="main">
-      <!-- All sections will go here in subsequent chunks -->
-      <p style="color: #888; padding: 4rem 0; text-align: center;">
-        Content sections coming next.
-      </p>
-    </main>
+
+  <!-- ABSTRACT: callout summary of the analysis -->
+  <section id="abstract" class="abstract">
+    <h2 class="section-label">Abstract</h2>
+    <p>
+  We analyse US equity sector returns from January 2000 to March 2026 grouped by Federal Reserve rate regime (hiking, cutting, neutral). Across the ten SPDR sector ETFs, sectors split cleanly along cyclicality: <strong>Technology, Utilities, Industrials, Consumer Discretionary and Financials lead during hiking cycles</strong>; <strong>Real Estate, Energy and Health Care lead during cutting cycles</strong>. The cyclical-defensive flip is consistent with the textbook framing of sector rotation through the business cycle, with one large caveat.
+</p>
+    <p>
+      The cutting cycles in our sample (2001, 2008&ndash;09, 2020) all coincide with recessions, so cutting-cycle returns reflect crisis dynamics rather than normal monetary easing. We treat this as a conditional-mean comparison, not a causal claim.
+    </p>
+  </section>
+
+  <!-- THE QUESTION -->
+  <section id="question" class="prose-section">
+    <h2>The question</h2>
+    <p>
+      How do US equity sector returns vary across Federal Reserve rate hiking and cutting cycles, and which sectors consistently rotate into outperformance as monetary policy shifts?
+    </p>
+    <p>
+      We use the ten SPDR sector ETFs (XLK, XLF, XLE, XLV, XLU, XLY, XLP, XLI, XLB, XLRE) and classify every month from January 2000 to March 2026 into a rate regime based on the direction of the Federal Funds Rate. Then we compare annualised sector returns across regimes.
+    </p>
+  </section>
+  <!-- FINDING 1: bar chart of hiking vs cutting -->
+  <section id="finding-1" class="prose-section">
+    <p class="section-label">Finding 1</p>
+    <h2>Cyclicals lead in hiking cycles, defensives lead in cutting cycles</h2>
+
+    <figure class="chart-figure">
+      <img src="figures/sector_returns_by_cycle.png"
+           alt="Bar chart showing annualised sector returns during Fed hiking and cutting cycles. Technology, Utilities, Industrials, Consumer Discretionary and Financials all post higher returns under hiking. Health Care and Real Estate flip the other way and earn higher returns under cutting."
+           loading="lazy">
+      <figcaption>
+        Annualised returns by sector, 2000&ndash;2026. Hiking and cutting cycles only; neutral excluded (see Limitations).
+      </figcaption>
+    </figure>
+
+    <p>
+      The split runs cleanly along sector cyclicality. <strong>Technology, Utilities, Industrials, Consumer Discretionary and Financials</strong> all post higher annualised returns under hiking than cutting. Technology and Financials show the widest gap (around 11 percentage points each), and Financials is the only sector with a negative cutting-cycle return at &minus;1.6%.
+    </p>
+
+    <p>
+      <strong>Health Care and Real Estate</strong> flip the other way, with cutting-cycle returns above their hiking-cycle returns. Consumer Staples is roughly flat across the two regimes.
+    </p>
+
+    <p>
+      Materials and Energy sit between the two camps with broadly similar returns in both regimes. Energy in particular has a high cutting-cycle figure at 12.2%, which lines up with energy prices spiking during some of the crisis-driven easing periods in the sample.
+    </p>
+
+    <p class="callout-inline">
+      The neutral regime is left out of this chart deliberately. With only 41 months across 10 sectors clustered in calm late-cycle bull runs, including neutral would flatter every sector indiscriminately and dilute the contrast that matters. See <a href="#finding-2">Finding 2</a> for the full picture and <a href="#limitations">Limitations</a> for the reasoning.
+    </p>
+  </section>
+
+</main>
 
     <nav class="sidebar-nav" aria-label="Page navigation">
       <p class="nav-label">Contents</p>
