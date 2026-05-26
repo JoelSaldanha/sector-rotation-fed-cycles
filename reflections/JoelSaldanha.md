@@ -1,4 +1,4 @@
-# Individual Reflection — Joel Saldanha
+# Individual Reflection: Joel Saldanha
 
 ## Evidence of contribution
 
