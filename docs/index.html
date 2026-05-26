@@ -186,7 +186,7 @@
     </noscript>
   </div>
   <figcaption>
-    Federal Funds Rate, 2000&ndash;2026, with regime shading. Hover or tap any point to see the exact rate. Green bands are hiking periods, red bands are cutting periods, grey bands are neutral. Crisis annotations mark each cutting episode.
+    Federal Funds Rate, 2000&ndash;2026, with regime shading. Hover or tap anywhere along the line to see the exact rate. Green bands are hiking periods, red bands are cutting periods, grey bands are neutral. Crisis annotations mark each cutting episode.
   </figcaption>
 </figure>
 
@@ -200,6 +200,146 @@
 
     <p class="callout-inline">
       The shading is also noisy during flat-rate periods (most visibly 2010&ndash;2015 and 2021&ndash;2022). Where the Fed held rates flat, small month-to-month wobbles flipped the rolling-mean signal back and forth between hiking and cutting. The aggregated returns are robust to this because each regime cell averages over 100+ months, but the noise is worth showing rather than hiding. Tracked in <a href="https://github.com/lse-ds105/group-project-git-it-done/issues/9">repo Issue #9</a>.
+    </p>
+  </section>
+  <!-- METHOD -->
+  <section id="method" class="prose-section">
+    <h2>Method</h2>
+
+    <p>
+      We pulled monthly Federal Funds Rate, CPI, and the 10Y&minus;2Y yield spread from FRED, and monthly prices for the ten SPDR sector ETFs (XLK, XLF, XLE, XLV, XLU, XLY, XLP, XLI, XLB, XLRE) from Alpha Vantage. Coverage runs from January 2000 to March 2026.
+    </p>
+
+    <p>
+      Rate regimes were labelled by taking a 3-month rolling mean of the Fed Funds Rate's monthly first difference. Positive means hiking, negative means cutting, zero or undefined means neutral. This is the standard approach for smoothing the noise in monthly rate-change data, though it produces some labelling flicker during flat-rate periods (see <a href="#limitations">Limitations</a>).
+    </p>
+
+    <p>
+      Returns are computed from month-end ETF prices as monthly returns, then aggregated to an annualised geometric figure within each (sector, regime) cell. The data quality check verified 2,959 sector-months across the ten ETFs with zero null prices, and confirmed the XLRE coverage gap of 124 observations versus 315 for every other sector.
+    </p>
+
+    <p>
+      The full pipeline is three notebooks in the repository. <code>NB01_collect</code> pulls the raw data from FRED and Alpha Vantage into JSON files. <code>NB02_transform</code> cleans, joins, and writes to a SQLite database. <code>NB03_analyse</code> reads from the database and produces the aggregations and figures shown on this page.
+    </p>
+  </section>
+
+  <!-- LIMITATIONS -->
+  <section id="limitations" class="prose-section">
+    <h2>Limitations</h2>
+
+    <p>
+      Four caveats apply to the findings above. Each is acknowledged here in its consolidated form and discussed in context where it bites hardest.
+    </p>
+
+    <div class="limitation-cards">
+
+      <article class="limitation-card">
+        <p class="limitation-number">1</p>
+        <h3>Cutting cycles are all crisis-driven</h3>
+        <p>
+          The three cutting cycles in the sample (2001, 2008&ndash;09, 2020) all coincide with US recessions. Cutting-cycle returns reflect crisis dynamics rather than normal monetary easing. A sample including a soft-landing cut would likely produce different cutting-cycle figures.
+        </p>
+      </article>
+
+      <article class="limitation-card">
+        <p class="limitation-number">2</p>
+        <h3>Real Estate has a short history</h3>
+        <p>
+          XLRE launched in October 2015 and has 124 observations versus 315 for every other sector. Its cutting-cycle figure of 14.9% reflects the 2020 COVID episode alone, not three cutting cycles. Treat it as one event rather than a pattern.
+        </p>
+      </article>
+
+      <article class="limitation-card">
+        <p class="limitation-number">3</p>
+        <h3>The neutral sample is small and biased</h3>
+        <p>
+          Only 41 months across 10 sectors fall into the neutral bucket, and those months cluster in calm late-cycle bull runs. The neutral column flatters every sector and is excluded from the headline bar chart for this reason. The heatmap displays it with the colour scale capped so the visual signal is "this column is contextual, not comparable."
+        </p>
+      </article>
+
+      <article class="limitation-card">
+        <p class="limitation-number">4</p>
+        <h3>The rate-cycle labelling is noisy in flat-rate periods</h3>
+        <p>
+          During periods where the Fed held rates flat (most visibly 2010&ndash;2015 and 2021&ndash;2022), small month-to-month wobbles flipped the rolling-mean signal back and forth between hiking and cutting. This affects the shading on the Fed Funds chart only. The aggregated returns in Findings 1 and 2 are robust because each cell averages over 100+ months. Tracked in <a href="https://github.com/lse-ds105/group-project-git-it-done/issues/9">repo Issue #9</a>.
+        </p>
+      </article>
+
+    </div>
+
+    <p class="callout-inline">
+      <strong>What this analysis does not claim.</strong> This is a conditional-mean comparison, not a causal claim. Fed policy and sector returns are both driven by the underlying economic regime, and the analysis cannot separate "the Fed cut rates and therefore these sectors did well" from "a recession was happening, the Fed cut rates because of it, and these sectors did well for separate reasons." Treat the findings as descriptive of historical co-occurrence, not predictive of future cycles.
+    </p>
+
+    <p class="bottom-line">
+      <strong>Bottom line.</strong> Across the 2000&ndash;2026 sample, US equity sectors split cleanly along cyclicality when grouped by Fed rate regime, but the cleanest reading of the data is that cutting-cycle outperformance for defensives and REITs is a recession story rather than a monetary easing story. The cyclical-defensive flip is real; the causal mechanism is not what the labels suggest.
+    </p>
+  </section>
+
+  <!-- REPRODUCE -->
+  <section id="reproduce" class="prose-section">
+    <h2>Reproducing the analysis</h2>
+
+    <p>
+      The repository is structured so a stranger can clone and re-run from scratch. The pipeline needs API keys for FRED (free) and Alpha Vantage (free tier sufficient).
+    </p>
+
+    <ol class="reproduce-steps">
+      <li>
+        <strong>Clone the repository.</strong>
+        <pre><code>git clone https://github.com/lse-ds105/group-project-git-it-done
+cd group-project-git-it-done</code></pre>
+      </li>
+
+      <li>
+        <strong>Create a <code>.env</code> file in the root directory</strong> containing your API keys:
+        <pre><code>FRED_API_KEY=your_fred_key_here
+ALPHA_VANTAGE_KEY=your_alpha_vantage_key_here</code></pre>
+        FRED keys are obtained at <a href="https://fredaccount.stlouisfed.org/apikey">fredaccount.stlouisfed.org/apikey</a>. Alpha Vantage keys at <a href="https://www.alphavantage.co/support/#api-key">alphavantage.co/support/#api-key</a>.
+      </li>
+
+      <li>
+        <strong>Install dependencies.</strong>
+        <pre><code>pip install pandas numpy matplotlib seaborn requests python-dotenv jupyter</code></pre>
+      </li>
+
+      <li>
+        <strong>Run the notebooks in order:</strong> <code>NB01_collect</code> &rarr; <code>NB02_transform</code> &rarr; <code>NB03_analyse</code>. Outputs land in <code>data/processed/analysis/</code> and <code>docs/figures/</code>. NB03 Section 10 exports the JS constants used by this website's interactive charts.
+      </li>
+    </ol>
+
+    <p class="callout-inline">
+      The analysis was built against a snapshot of FRED and Alpha Vantage data as of late May 2026. Re-fetching may produce slightly different figures for the latest months, but the historical findings (2000&ndash;2024) are stable.
+    </p>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" class="prose-section">
+    <h2>Team and contributions</h2>
+
+    <p>
+      Group "Git It Done" &mdash; DS105W Winter Term 2025/26.
+    </p>
+
+    <dl class="team-list">
+      <dt>Hugo Whyte</dt>
+      <dd>
+        Data collection from FRED and Alpha Vantage. <code>NB01_collect</code> pipeline. README write-up (<a href="https://github.com/lse-ds105/group-project-git-it-done/pull/17">PR #17</a>).
+      </dd>
+
+      <dt>Parthiv Chakadath</dt>
+      <dd>
+        Data cleaning, joining, and SQLite storage. <code>NB02_transform</code> pipeline (<a href="https://github.com/lse-ds105/group-project-git-it-done/pull/7">PR #7</a>, polished in <a href="https://github.com/lse-ds105/group-project-git-it-done/pull/16">PR #16</a>).
+      </dd>
+
+      <dt>Joel Saldanha</dt>
+      <dd>
+        Analysis, visualisations, NB03 pipeline. Documented the rate-cycle labelling caveat as <a href="https://github.com/lse-ds105/group-project-git-it-done/issues/9">Issue #9</a>. Built this website (NB03 Section 10 data export + custom HTML/CSS/Plotly).
+      </dd>
+    </dl>
+
+    <p class="repo-link">
+      Repository: <a href="https://github.com/lse-ds105/group-project-git-it-done">github.com/lse-ds105/group-project-git-it-done</a>
     </p>
   </section>
 
