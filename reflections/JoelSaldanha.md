@@ -5,7 +5,7 @@
 **Scoping and coordination (not visible in commits, but set the project's direction)**
 
 - Proposed the research question (sector returns × Fed rate cycles) and identified the 10 SPDR sector ETFs as the right instruments
-- Identified FRED and Alpha Vantage as data sources; signed up for API keys; sketched the rate-regime classification (3-month rolling mean of `fed_funds.diff()`) before NB01 was written
+- Identified FRED and Alpha Vantage as data sources, signed up for API keys, sketched the rate-regime classification (3-month rolling mean of `fed_funds.diff()`) before NB01 was written
 - Led role allocation by matching teammates to notebooks based on their strengths: Hugo (NB01, API experience), Parthiv (NB02, database skills), me (NB03 + website)
 
 **Analysis and data pipeline**
@@ -16,7 +16,7 @@
 **Website**
 
 - [PR #15 — static narrative website](https://github.com/lse-ds105/group-project-git-it-done/pull/15) and [PR #18 — website polish](https://github.com/lse-ds105/group-project-git-it-done/pull/18) (first version, Markdown)
-- [PR #19 — custom HTML website](https://github.com/lse-ds105/group-project-git-it-done/pull/19) (final version, financial research note style with three interactive Plotly charts). Lighthouse: 100/100 on Accessibility, Best Practices, and SEO; Performance 74 (bounded by Plotly CDN, a trade I accepted because the heatmap colour-saturation reading is imprecise without hover-to-reveal). HTML and CSS scaffolding developed with Claude (Anthropic) as a coding assistant; prose, framing of findings, choice of caveats, and design direction are my own. Full disclosure in the website's "About this site" section; [public chat log](https://claude.ai/share/0fe1f266-9f36-4a10-81a6-a61b5351a76f)
+- [PR #19 — custom HTML website](https://github.com/lse-ds105/group-project-git-it-done/pull/19) (final version, financial research note style with three interactive Plotly charts). Lighthouse: 100/100 on Accessibility, Best Practices, and SEO; Performance 74 (bounded by Plotly CDN, a trade I accepted because the heatmap colour-saturation reading is imprecise without hover-to-reveal). I opened [PR #19 — custom HTML website](https://github.com/lse-ds105/group-project-git-it-done/pull/19) as a draft and tagged Hugo and Parthiv in the description so the website build was visible to the team throughout, rather than landing as a finished feature out of nowhere. HTML and CSS scaffolding developed with Claude (Anthropic) as a coding assistant; prose, framing of findings, choice of caveats, and design direction are my own. Full disclosure in the website's "About this site" section; [public chat log](https://claude.ai/share/0fe1f266-9f36-4a10-81a6-a61b5351a76f)
 
 **Teamwork**
 
