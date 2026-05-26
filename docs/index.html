@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sector Rotation and the Fed | DS105W Group Project</title>
+  <meta name="description" content="Analysis of US equity sector returns across Federal Reserve rate cycles, 2000–2026.">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+  <!-- Skip-to-content link for keyboard/screen reader users -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- TOP STRIP: small caps course label, project title, authors, date -->
+  <header class="page-header">
+    <div class="container">
+      <p class="course-label">DS105W · Group Project · Winter Term 2025/26</p>
+      <h1 class="project-title">Sector Rotation and the Fed</h1>
+      <p class="subtitle">How US equity sector returns vary across Federal Reserve rate cycles, 2000–2026</p>
+      <p class="byline">
+        Joel Saldanha · Hugo Whyte · Parthiv Chakadath
+      </p>
+      <p class="date">May 2026 · Last updated 26 May 2026</p>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT: content + sticky nav sidebar -->
+  <div class="layout container">
+
+    <main class="content" id="main">
+
+  <!-- ABSTRACT: callout summary of the analysis -->
+  <section id="abstract" class="abstract">
+    <h2 class="section-label">Abstract</h2>
+    <p>
+  We analyse US equity sector returns from January 2000 to March 2026 grouped by Federal Reserve rate regime (hiking, cutting, neutral). Across the ten SPDR sector ETFs, sectors split cleanly along cyclicality: <strong>Technology, Utilities, Industrials, Consumer Discretionary and Financials lead during hiking cycles</strong>; <strong>Real Estate, Energy and Health Care lead during cutting cycles</strong>. The cyclical-defensive flip is consistent with the textbook framing of sector rotation through the business cycle, with one large caveat.
+</p>
+    <p>
+      The cutting cycles in our sample (2001, 2008&ndash;09, 2020) all coincide with recessions, so cutting-cycle returns reflect crisis dynamics rather than normal monetary easing. We treat this as a conditional-mean comparison, not a causal claim.
+    </p>
+  </section>
+
+  <!-- THE QUESTION -->
+  <section id="question" class="prose-section">
+    <h2>The question</h2>
+    <p>
+      How do US equity sector returns vary across Federal Reserve rate hiking and cutting cycles, and which sectors consistently rotate into outperformance as monetary policy shifts?
+    </p>
+    <p>
+      We use the ten SPDR sector ETFs (XLK, XLF, XLE, XLV, XLU, XLY, XLP, XLI, XLB, XLRE) and classify every month from January 2000 to March 2026 into a rate regime based on the direction of the Federal Funds Rate. Then we compare annualised sector returns across regimes.
+    </p>
+  </section>
+  <!-- FINDING 1: bar chart of hiking vs cutting -->
+  <section id="finding-1" class="prose-section">
+    <p class="section-label">Finding 1</p>
+    <h2>Cyclicals lead in hiking cycles, defensives lead in cutting cycles</h2>
+
+    <figure class="chart-figure">
+  <div id="finding1-chart" class="plotly-chart" role="img" aria-label="Interactive bar chart showing annualised sector returns during Fed hiking and cutting cycles. Technology, Utilities, Industrials, Consumer Discretionary and Financials post higher returns under hiking. Health Care and Real Estate post higher returns under cutting.">
+    <noscript>
+      <img src="figures/sector_returns_by_cycle.png"
+           alt="Bar chart showing annualised sector returns during Fed hiking and cutting cycles.">
+    </noscript>
+  </div>
+  <figcaption>
+  Annualised returns by sector, 2000&ndash;2026. Hover or tap any bar to see the exact figure. Hiking and cutting cycles only; neutral excluded (see Limitations).
+</figcaption>
+</figure>
+<details class="data-table-toggle">
+  <summary>View the underlying numbers</summary>
+  <table class="data-table">
+    <caption>Annualised returns by sector and Fed regime, 2000&ndash;2026</caption>
+    <thead>
+      <tr>
+        <th scope="col">Sector</th>
+        <th scope="col">Hiking</th>
+        <th scope="col">Cutting</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row">Technology</th><td>12.9%</td><td>1.9%</td></tr>
+      <tr><th scope="row">Utilities</th><td>10.9%</td><td>5.2%</td></tr>
+      <tr><th scope="row">Industrials</th><td>10.7%</td><td>4.0%</td></tr>
+      <tr><th scope="row">Consumer Discretionary</th><td>10.5%</td><td>5.7%</td></tr>
+      <tr><th scope="row">Financials</th><td>9.3%</td><td>&minus;1.6%</td></tr>
+      <tr><th scope="row">Materials</th><td>7.8%</td><td>8.2%</td></tr>
+      <tr><th scope="row">Energy</th><td>7.6%</td><td>12.2%</td></tr>
+      <tr><th scope="row">Consumer Staples</th><td>7.1%</td><td>6.9%</td></tr>
+      <tr><th scope="row">Health Care</th><td>5.5%</td><td>10.2%</td></tr>
+      <tr><th scope="row">Real Estate</th><td>2.2%</td><td>14.9%</td></tr>
+    </tbody>
+  </table>
+</details>
+
+    <p>
+      The split runs cleanly along sector cyclicality. <strong>Technology, Utilities, Industrials, Consumer Discretionary and Financials</strong> all post higher annualised returns under hiking than cutting. Technology and Financials show the widest gap (around 11 percentage points each), and Financials is the only sector with a negative cutting-cycle return at &minus;1.6%.
+    </p>
+
+    <p>
+      <strong>Health Care and Real Estate</strong> flip the other way, with cutting-cycle returns above their hiking-cycle returns. Consumer Staples is roughly flat across the two regimes.
+    </p>
+
+    <p>
+      Materials and Energy sit between the two camps with broadly similar returns in both regimes. Energy in particular has a high cutting-cycle figure at 12.2%, which lines up with energy prices spiking during some of the crisis-driven easing periods in the sample.
+    </p>
+
+    <p class="callout-inline">
+      The neutral regime is left out of this chart deliberately. With only 41 months across 10 sectors clustered in calm late-cycle bull runs, including neutral would flatter every sector indiscriminately and dilute the contrast that matters. See <a href="#finding-2">Finding 2</a> for the full picture and <a href="#limitations">Limitations</a> for the reasoning.
+    </p>
+  </section>
+
+  <!-- FINDING 2: heatmap of full sector x cycle matrix -->
+  <section id="finding-2" class="prose-section">
+    <p class="section-label">Finding 2</p>
+    <h2>Cyclicals and defensives are mirror images across regimes</h2>
+
+    <p>
+      The bar chart above strips the story down. The heatmap below shows the full picture, with the neutral column included for transparency. The neutral column saturates at the top of the colour scale because its values are inflated by sample bias, not because those returns are meaningfully comparable to hiking or cutting cycles. <a href="#limitations">Limitations</a> explains why.
+    </p>
+
+    <figure class="chart-figure">
+      <div id="finding2-chart" class="plotly-chart" role="img" aria-label="Heatmap of annualised sector returns across cutting, neutral and hiking Fed regimes. Cell colour ranges from red for low returns to green for high returns. Real Estate has the highest cutting-cycle return at 14.9% and the lowest hiking-cycle return at 2.2%. Financials shows the opposite pattern with a negative cutting-cycle return.">
+        <noscript>
+          <img src="figures/sector_cycle_heatmap.png" alt="Heatmap of annualised sector returns by Fed regime.">
+        </noscript>
+      </div>
+      <figcaption>
+  Annualised returns by sector and Fed regime, 2000&ndash;2026. Hover or tap any cell to see the exact figure. Real Estate's cutting figure (14.9%) reflects the 2020 COVID episode alone, since XLRE only launched in October 2015.
+</figcaption>
+    </figure>
+
+    <details class="data-table-toggle">
+      <summary>View the underlying numbers</summary>
+      <table class="data-table">
+        <caption>Annualised returns by sector and Fed regime, 2000&ndash;2026</caption>
+        <thead>
+          <tr>
+            <th scope="col">Sector</th>
+            <th scope="col">Cutting</th>
+            <th scope="col">Neutral</th>
+            <th scope="col">Hiking</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Technology</th><td>1.9%</td><td>28.8%</td><td>12.9%</td></tr>
+          <tr><th scope="row">Utilities</th><td>5.2%</td><td>19.0%</td><td>10.9%</td></tr>
+          <tr><th scope="row">Industrials</th><td>4.0%</td><td>32.2%</td><td>10.7%</td></tr>
+          <tr><th scope="row">Consumer Discretionary</th><td>5.7%</td><td>30.6%</td><td>10.5%</td></tr>
+          <tr><th scope="row">Financials</th><td>&minus;1.6%</td><td>37.7%</td><td>9.3%</td></tr>
+          <tr><th scope="row">Materials</th><td>8.2%</td><td>23.2%</td><td>7.8%</td></tr>
+          <tr><th scope="row">Energy</th><td>12.2%</td><td>30.6%</td><td>7.6%</td></tr>
+          <tr><th scope="row">Consumer Staples</th><td>6.9%</td><td>17.3%</td><td>7.1%</td></tr>
+          <tr><th scope="row">Health Care</th><td>10.2%</td><td>17.2%</td><td>5.5%</td></tr>
+          <tr><th scope="row">Real Estate</th><td>14.9%</td><td>14.7%</td><td>2.2%</td></tr>
+        </tbody>
+      </table>
+    </details>
+
+    <p>
+  The hiking and cutting columns are roughly mirror images. Sectors that lead in hiking tend to lag in cutting and vice versa. <strong>Real Estate</strong> is the clearest case, at 2.2% in hiking and 14.9% in cutting (the highest cutting cell in the table). <strong>Financials</strong> posts the widest mirror-image swing of any sector, +9.3% hiking versus &minus;1.6% cutting.
+</p>
+
+    <p>
+  The neutral column is the highest for nine of the ten sectors. That isn't really telling us anything about how sectors behave in neutral periods. The 41 months in the neutral bucket happen to cluster in calm late-cycle bull runs that lifted almost everything, so the column ends up flattering every sector indiscriminately.
+</p>
+
+    <p class="callout-inline">
+      The Real Estate cutting figure (14.9%) reflects the 2020 COVID episode alone, since XLRE did not exist during the 2001 or 2008&ndash;09 cutting cycles. Treat it as one event rather than a pattern. See <a href="#limitations">Limitations</a> for the full XLRE caveat.
+    </p>
+  </section>
+  <!-- FINDING 3: Fed Funds Rate timeline with regime shading -->
+  <section id="finding-3" class="prose-section">
+    <p class="section-label">Finding 3</p>
+    <h2>Every cutting cycle in this sample is a recession</h2>
+
+    <p>
+      The chart above shows what each regime produced. This one shows when each regime actually happened, which matters because the three cutting cycles in the sample all coincide with US recessions.
+    </p>
+
+    <figure class="chart-figure">
+  <div id="finding3-chart" class="plotly-chart" role="img" aria-label="Line chart of the Federal Funds Rate from 2000 to 2026 with shaded background regions showing hiking, cutting and neutral periods. The three cutting periods (2001 to 2003, 2007 to 2009, and 2020) all coincide with US recessions: the dot-com bust, the Global Financial Crisis, and COVID respectively.">
+    <noscript>
+      <img src="figures/fed_funds_cycles.png" alt="Fed Funds Rate timeline with regime shading.">
+    </noscript>
+  </div>
+  <figcaption>
+    Federal Funds Rate, 2000&ndash;2026, with regime shading. Hover or tap anywhere along the line to see the exact rate. Green bands are hiking periods, red bands are cutting periods, grey bands are neutral. Crisis annotations mark each cutting episode.
+  </figcaption>
+</figure>
+
+    <p>
+      The red blocks at 2001&ndash;2003 (dot-com bust), 2007&ndash;2009 (GFC) and 2020 (COVID) are the only cutting episodes in the data. The Fed didn't cut rates in this sample without a crisis driving the decision.
+    </p>
+
+    <p>
+      That means the cutting-cycle returns in the bar chart and heatmap are crisis-conditioned rather than regime-conditioned in any clean theoretical sense. Any reading of <em>how sectors perform when the Fed is cutting</em> should really be read as <em>how sectors perform when the Fed is cutting in a recession</em>. A sample including a soft-landing cut would likely look different.
+    </p>
+
+    <p class="callout-inline">
+      The shading is also noisy during flat-rate periods (most visibly 2010&ndash;2015 and 2021&ndash;2022). Where the Fed held rates flat, small month-to-month wobbles flipped the rolling-mean signal back and forth between hiking and cutting. The aggregated returns are robust to this because each regime cell averages over 100+ months, but the noise is worth showing rather than hiding. Tracked in <a href="https://github.com/lse-ds105/group-project-git-it-done/issues/9">repo Issue #9</a>.
+    </p>
+  </section>
+  <!-- METHOD -->
+  <section id="method" class="prose-section">
+    <h2>Method</h2>
+
+    <p>
+      We pulled monthly Federal Funds Rate, CPI, and the 10Y&minus;2Y yield spread from FRED, and monthly prices for the ten SPDR sector ETFs (XLK, XLF, XLE, XLV, XLU, XLY, XLP, XLI, XLB, XLRE) from Alpha Vantage. Coverage runs from January 2000 to March 2026.
+    </p>
+
+    <p>
+      Rate regimes were labelled by taking a 3-month rolling mean of the Fed Funds Rate's monthly first difference. Positive means hiking, negative means cutting, zero or undefined means neutral. This is the standard approach for smoothing the noise in monthly rate-change data, though it produces some labelling flicker during flat-rate periods (see <a href="#limitations">Limitations</a>).
+    </p>
+
+    <p>
+      Returns are computed from month-end ETF prices as monthly returns, then aggregated to an annualised geometric figure within each (sector, regime) cell. The data quality check verified 2,959 sector-months across the ten ETFs with zero null prices, and confirmed the XLRE coverage gap of 124 observations versus 315 for every other sector.
+    </p>
+
+    <p>
+      The full pipeline is three notebooks in the repository. <code>NB01_collect</code> pulls the raw data from FRED and Alpha Vantage into JSON files. <code>NB02_transform</code> cleans, joins, and writes to a SQLite database. <code>NB03_analyse</code> reads from the database and produces the aggregations and figures shown on this page.
+    </p>
+  </section>
+
+  <!-- LIMITATIONS -->
+  <section id="limitations" class="prose-section">
+    <h2>Limitations</h2>
+
+    <p>
+      Four caveats apply to the findings above. Each is acknowledged here in its consolidated form and discussed in context where it bites hardest.
+    </p>
+
+    <div class="limitation-cards">
+
+      <article class="limitation-card">
+        <p class="limitation-number">1</p>
+        <h3>Cutting cycles are all crisis-driven</h3>
+        <p>
+          The three cutting cycles in the sample (2001, 2008&ndash;09, 2020) all coincide with US recessions. Cutting-cycle returns reflect crisis dynamics rather than normal monetary easing. A sample including a soft-landing cut would likely produce different cutting-cycle figures.
+        </p>
+      </article>
+
+      <article class="limitation-card">
+        <p class="limitation-number">2</p>
+        <h3>Real Estate has a short history</h3>
+        <p>
+          XLRE launched in October 2015 and has 124 observations versus 315 for every other sector. Its cutting-cycle figure of 14.9% reflects the 2020 COVID episode alone, not three cutting cycles. Treat it as one event rather than a pattern.
+        </p>
+      </article>
+
+      <article class="limitation-card">
+        <p class="limitation-number">3</p>
+        <h3>The neutral sample is small and biased</h3>
+        <p>
+          Only 41 months across 10 sectors fall into the neutral bucket, and those months cluster in calm late-cycle bull runs. The neutral column flatters every sector and is excluded from the headline bar chart for this reason. The heatmap displays it with the colour scale capped so the visual signal is "this column is contextual, not comparable."
+        </p>
+      </article>
+
+      <article class="limitation-card">
+        <p class="limitation-number">4</p>
+        <h3>The rate-cycle labelling is noisy in flat-rate periods</h3>
+        <p>
+          During periods where the Fed held rates flat (most visibly 2010&ndash;2015 and 2021&ndash;2022), small month-to-month wobbles flipped the rolling-mean signal back and forth between hiking and cutting. This affects the shading on the Fed Funds chart only. The aggregated returns in Findings 1 and 2 are robust because each cell averages over 100+ months. Tracked in <a href="https://github.com/lse-ds105/group-project-git-it-done/issues/9">repo Issue #9</a>.
+        </p>
+      </article>
+
+    </div>
+
+    <p class="callout-inline">
+      <strong>What this analysis does not claim.</strong> This is a conditional-mean comparison, not a causal claim. Fed policy and sector returns are both driven by the underlying economic regime, and the analysis cannot separate "the Fed cut rates and therefore these sectors did well" from "a recession was happening, the Fed cut rates because of it, and these sectors did well for separate reasons." Treat the findings as descriptive of historical co-occurrence, not predictive of future cycles.
+    </p>
+
+  </section>
+
+  <!-- CONCLUSION -->
+  <section id="conclusion" class="prose-section">
+    <h2>Conclusion</h2>
+
+    <p>
+      Across the 2000&ndash;2026 sample, US equity sectors split cleanly along cyclicality when grouped by Fed rate regime, but the cleanest reading of the data is that cutting-cycle outperformance for defensives and REITs is a recession story rather than a monetary easing story. The cyclical-defensive flip is real; the causal mechanism is not what the labels suggest.
+    </p>
+
+    <p>
+      For an investor or analyst working with this framework, the practical implication is that sector rotation strategies that condition on Fed regime are implicitly conditioning on the macro environment that produced that regime. A strategy built on "buy defensives when the Fed cuts" is, in this sample, the same strategy as "buy defensives during recessions." That is not necessarily wrong, but it is worth being precise about what the model is doing.
+    </p>
+  </section>
+
+  <!-- REPRODUCE -->
+  <section id="reproduce" class="prose-section">
+    <h2>Reproducing the analysis</h2>
+
+    <p>
+      The repository is structured so a stranger can clone and re-run from scratch. The pipeline needs API keys for FRED (free) and Alpha Vantage (free tier sufficient).
+    </p>
+
+    <ol class="reproduce-steps">
+      <li>
+  <strong>Install dependencies from <code>requirements.txt</code>:</strong>
+  <pre><code>pip install -r requirements.txt</code></pre>
+</li>
+
+      <li>
+        <strong>Create a <code>.env</code> file in the root directory</strong> containing your API keys:
+        <pre><code>FRED_API_KEY=your_fred_key_here
+ALPHA_VANTAGE_KEY=your_alpha_vantage_key_here</code></pre>
+        FRED keys are obtained at <a href="https://fredaccount.stlouisfed.org/apikey">fredaccount.stlouisfed.org/apikey</a>. Alpha Vantage keys at <a href="https://www.alphavantage.co/support/#api-key">alphavantage.co/support/#api-key</a>.
+      </li>
+
+      <li>
+        <strong>Install dependencies.</strong>
+        <pre><code>pip install pandas numpy matplotlib seaborn requests python-dotenv jupyter</code></pre>
+      </li>
+
+      <li>
+        <strong>Run the notebooks in order:</strong> <code>NB01_collect</code> &rarr; <code>NB02_transform</code> &rarr; <code>NB03_analyse</code>. Outputs land in <code>data/processed/analysis/</code> and <code>docs/figures/</code>. NB03 Section 10 exports the JS constants used by this website's interactive charts.
+      </li>
+    </ol>
+
+    <p class="callout-inline">
+      The analysis was built against a snapshot of FRED and Alpha Vantage data as of late May 2026. Re-fetching may produce slightly different figures for the latest months, but the historical findings (2000&ndash;2024) are stable.
+    </p>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" class="prose-section">
+    <h2>Team and contributions</h2>
+
+    <p>
+      Group "Git It Done": DS105W Winter Term 2025/26.
+    </p>
+
+    <dl class="team-list">
+  <dt>Hugo Whyte</dt>
+  <dd>
+    Data collection from FRED and Alpha Vantage. <code>NB01_collect</code> pipeline. README write-up (<a href="https://github.com/lse-ds105/group-project-git-it-done/pull/17">PR #17</a>). Issue assignment: <a href="https://github.com/lse-ds105/group-project-git-it-done/issues/6">Issue #6</a>.
+  </dd>
+
+  <dt>Parthiv Chakadath</dt>
+  <dd>
+    Data cleaning, joining, and SQLite storage. <code>NB02_transform</code> pipeline (<a href="https://github.com/lse-ds105/group-project-git-it-done/pull/7">PR #7</a>, polished in <a href="https://github.com/lse-ds105/group-project-git-it-done/pull/16">PR #16</a>). Addressed <a href="https://github.com/lse-ds105/group-project-git-it-done/issues/9">Issue #9</a> labelling caveat in NB02 markdown.
+  </dd>
+
+  <dt>Joel Saldanha</dt>
+  <dd>
+    Analysis pipeline (<a href="https://github.com/lse-ds105/group-project-git-it-done/pull/13">NB03, PR #13</a>). Static narrative website (<a href="https://github.com/lse-ds105/group-project-git-it-done/pull/15">PR #15</a>, polished in <a href="https://github.com/lse-ds105/group-project-git-it-done/pull/18">PR #18</a>). Custom HTML rebuild with Plotly charts (this version, <a href="https://github.com/lse-ds105/group-project-git-it-done/pull/19">PR #19</a>). Filed <a href="https://github.com/lse-ds105/group-project-git-it-done/issues/9">Issue #9</a> tracking the rate-cycle labelling caveat.
+  </dd>
+</dl>
+
+    <p class="repo-link">
+      Repository: <a href="https://github.com/lse-ds105/group-project-git-it-done">github.com/lse-ds105/group-project-git-it-done</a>
+    </p>
+  </section>
+  <!-- BUILD NOTES -->
+<section id="build" class="prose-section">
+  <h2>About this site</h2>
+
+  <p>
+    This page is a static site on GitHub Pages: hand-written HTML and CSS for the layout and typography, Plotly.js for the three interactive charts. The data is exported from <code>NB03_analyse</code> Section 10 as JS constants embedded inline, so the site is self-contained with no runtime data fetching. Accessibility baseline includes semantic landmark elements, a skip link, WCAG AA contrast, <code>&lt;noscript&gt;</code> PNG fallbacks, and keyboard-accessible data tables behind each chart.
+  </p>
+
+  <p>
+    The website was authored by Joel Saldanha as one part of the group's three-person split (see Team). The HTML structure and CSS design system were developed in collaboration with Claude (Anthropic) as a coding assistant, with iteration, structural decisions, and final integration done by Joel. The project itself was the group's work (see Team); the website's prose, framing of findings, and analysis were authored by Joel without AI generation. Full disclosure of the assistance pattern is included in the individual reflection. Chat log available on request.
+  </p>
+
+  <p>
+    Source: <a href="https://github.com/lse-ds105/group-project-git-it-done/blob/main/docs/index.html">docs/index.html</a> and <a href="https://github.com/lse-ds105/group-project-git-it-done/blob/main/docs/style.css">docs/style.css</a>. Build trail: <a href="https://github.com/lse-ds105/group-project-git-it-done/pulls?q=is%3Apr+is%3Aclosed">closed pull requests</a>.
+  </p>
+</section>
+<!-- REFERENCES -->
+  <section id="references" class="prose-section">
+    <h2>References</h2>
+
+    <p>
+      The intuition that equity sectors rotate through the business cycle and respond differently to monetary policy is not new. The findings in this note are best read against the established literature on sector rotation and Fed-cycle effects.
+    </p>
+
+    <ul class="references-list">
+      <li>
+        Conover, C. M., Jensen, G. R., & Johnson, R. R. (1999). <em>Monetary Conditions and International Investing</em>. <em>Financial Analysts Journal</em>, 55(4), 38&ndash;47.
+      </li>
+      <li>
+        Jensen, G. R., & Mercer, J. M. (2002). <em>Monetary Policy and the Cross-Section of Expected Stock Returns</em>. <em>The Journal of Financial Research</em>, 25(1), 125&ndash;139.
+      </li>
+      <li>
+        Stovall, S. (1996). <em>Standard &amp; Poor's Sector Investing: How to Buy the Right Stock in the Right Industry at the Right Time</em>. McGraw-Hill.
+      </li>
+      <li>
+        Federal Reserve Economic Data (FRED). St. Louis Fed. Series: <code>FEDFUNDS</code>, <code>CPIAUCSL</code>, <code>T10Y2Y</code>. Accessed via the FRED API. <a href="https://fred.stlouisfed.org">fred.stlouisfed.org</a>
+      </li>
+      <li>
+        Alpha Vantage. Monthly adjusted equity time series for ten SPDR sector ETFs (XLK, XLF, XLE, XLV, XLU, XLY, XLP, XLI, XLB, XLRE). <a href="https://www.alphavantage.co">alphavantage.co</a>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+    <nav class="sidebar-nav" aria-label="Page navigation">
+      <p class="nav-label">Contents</p>
+      <ol>
+  <li><a href="#abstract">Abstract</a></li>
+  <li><a href="#question">The question</a></li>
+  <li><a href="#finding-1">Finding 1</a></li>
+  <li><a href="#finding-2">Finding 2</a></li>
+  <li><a href="#finding-3">Finding 3</a></li>
+  <li><a href="#method">Method</a></li>
+  <li><a href="#limitations">Limitations</a></li>
+  <li><a href="#conclusion">Conclusion</a></li>
+  <li><a href="#reproduce">Reproduce</a></li>
+  <li><a href="#team">Team</a></li>
+  <li><a href="#build">About this site</a></li>
+  <li><a href="#references">References</a></li>
+</ol>
+    </nav>
+
+  </div>
+
+  <footer class="page-footer">
+    <div class="container">
+      <p>London School of Economics and Political Science · DS105W Data for Data Science</p>
+      <p><a href="https://github.com/lse-ds105/group-project-git-it-done">github.com/lse-ds105/group-project-git-it-done</a></p>
+    </div>
+  </footer>
+<script>
+    // ============================================
+    // FINDING 1 CHART: hiking vs cutting bar chart
+    // Data hard-coded from cycle_returns.csv (NB03 output)
+    // ============================================
+    (function () {
+      var sectors = [
+        'Technology',
+        'Utilities',
+        'Industrials',
+        'Consumer Discretionary',
+        'Financials',
+        'Materials',
+        'Energy',
+        'Consumer Staples',
+        'Health Care',
+        'Real Estate'
+      ];
+
+      var hikingReturns = [12.9, 10.9, 10.7, 10.5, 9.3, 7.8, 7.6, 7.1, 5.5, 2.2];
+      var cuttingReturns = [1.9, 5.2, 4.0, 5.7, -1.6, 8.2, 12.2, 6.9, 10.2, 14.9];
+
+      var hikingTrace = {
+        x: sectors,
+        y: hikingReturns,
+        name: 'Hiking',
+        type: 'bar',
+        marker: { color: '#2ca02c' },
+        hovertemplate: '<b>%{x}</b><br>Hiking: %{y:.1f}%<extra></extra>'
+      };
+
+      var cuttingTrace = {
+        x: sectors,
+        y: cuttingReturns,
+        name: 'Cutting',
+        type: 'bar',
+        marker: { color: '#c0392b' },
+        hovertemplate: '<b>%{x}</b><br>Cutting: %{y:.1f}%<extra></extra>'
+      };
+
+      var layout = {
+        title: {
+          text: 'Cyclicals lead in hiking cycles; defensives and REITs lead in cutting cycles',
+          font: { family: 'Georgia, serif', size: 16, color: '#1a1a1a' },
+          x: 0,
+          xanchor: 'left'
+        },
+        barmode: 'group',
+        bargap: 0.25,
+        bargroupgap: 0.08,
+        margin: { l: 60, r: 20, t: 70, b: 100 },
+        xaxis: {
+          tickangle: -30,
+          tickfont: { family: 'system-ui, sans-serif', size: 12, color: '#555' },
+          showgrid: false
+        },
+        yaxis: {
+          title: { text: 'Annualised return (%)', font: { family: 'system-ui, sans-serif', size: 12, color: '#555' } },
+          gridcolor: '#e5e5e0',
+          zerolinecolor: '#1a1a1a',
+          tickfont: { family: 'system-ui, sans-serif', size: 11, color: '#555' }
+        },
+        legend: {
+          x: 1,
+          xanchor: 'right',
+          y: 1.05,
+          orientation: 'h',
+          font: { family: 'system-ui, sans-serif', size: 12 }
+        },
+        plot_bgcolor: '#fafaf7',
+        paper_bgcolor: '#fafaf7',
+        hoverlabel: { bgcolor: '#0a2540', font: { color: '#fff', family: 'system-ui, sans-serif' } }
+      };
+
+      var config = {
+        responsive: true,
+        displayModeBar: false  // hide the toolbar for a cleaner look
+      };
+
+      Plotly.newPlot('finding1-chart', [hikingTrace, cuttingTrace], layout, config);
+    })();
+  </script>
+  <script>
+    // ============================================
+    // FINDING 2 CHART: sector x cycle heatmap
+    // Data hard-coded from cycle_returns.csv (NB03 output)
+    // ============================================
+    (function () {
+      // Order: sorted by hiking-cycle return descending (top = highest hiking)
+      var sectors = [
+        'Real Estate',
+        'Health Care',
+        'Consumer Staples',
+        'Energy',
+        'Materials',
+        'Financials',
+        'Consumer Discretionary',
+        'Industrials',
+        'Utilities',
+        'Technology'
+      ];
+
+      var cycles = ['Cutting', '<i>Neutral</i>', 'Hiking'];
+
+      // z is a 2D array: rows = sectors (in sectors order), cols = cycles (in cycles order)
+      // Each value is the annualised return (%)
+      var z = [
+        [14.9, 14.7, 2.2],   // Real Estate
+        [10.2, 17.2, 5.5],   // Health Care
+        [6.9, 17.3, 7.1],    // Consumer Staples
+        [12.2, 30.6, 7.6],   // Energy
+        [8.2, 23.2, 7.8],    // Materials
+        [-1.6, 37.7, 9.3],   // Financials
+        [5.7, 30.6, 10.5],   // Consumer Discretionary
+        [4.0, 32.2, 10.7],   // Industrials
+        [5.2, 19.0, 10.9],   // Utilities
+        [1.9, 28.8, 12.9]    // Technology
+      ];
+
+      var heatmapTrace = {
+        x: cycles,
+        y: sectors,
+        z: z,
+        type: 'heatmap',
+        colorscale: [
+          [0, '#c0392b'],
+          [0.5, '#f5e6a8'],
+          [1, '#2ca02c']
+        ],
+        zmin: -2,
+        zmax: 15,
+        showscale: true,
+        hovertemplate: '<b>%{y}</b><br>%{x}: %{z:.1f}%<extra></extra>',
+        colorbar: {
+          title: { text: 'Return (%)', font: { family: 'system-ui, sans-serif', size: 11, color: '#555' } },
+          tickfont: { family: 'system-ui, sans-serif', size: 10, color: '#555' },
+          thickness: 12,
+          len: 0.75,
+          tickvals: [-2, 0, 5, 10, 15],
+          ticktext: ['−2%', '0%', '5%', '10%', '≥15%']
+        }
+      };
+
+      // Add text annotations (the cell values themselves) for accessibility + scan-readability
+      var annotations = [];
+      for (var i = 0; i < sectors.length; i++) {
+        for (var j = 0; j < cycles.length; j++) {
+          annotations.push({
+            x: cycles[j],
+            y: sectors[i],
+            text: z[i][j].toFixed(1) + '%',
+            showarrow: false,
+            font: {
+              family: 'system-ui, sans-serif',
+              size: 12,
+              color: z[i][j] > 12 || z[i][j] < -1 ? '#fff' : '#1a1a1a'
+            }
+          });
+        }
+      }
+
+      var layout = {
+        title: {
+          text: 'Hiking and cutting columns are roughly mirror images',
+          font: { family: 'Georgia, serif', size: 16, color: '#1a1a1a' },
+          x: 0,
+          xanchor: 'left'
+        },
+        margin: { l: 180, r: 80, t: 70, b: 50 },
+        xaxis: {
+          side: 'top',
+          tickfont: { family: 'system-ui, sans-serif', size: 12, color: '#555' }
+        },
+        yaxis: {
+          tickfont: { family: 'system-ui, sans-serif', size: 12, color: '#555' },
+          autorange: 'reversed'
+        },
+        annotations: annotations,
+        plot_bgcolor: '#fafaf7',
+        paper_bgcolor: '#fafaf7',
+        hoverlabel: { bgcolor: '#0a2540', font: { color: '#fff', family: 'system-ui, sans-serif' } }
+      };
+
+      var config = {
+        responsive: true,
+        displayModeBar: false
+      };
+
+      Plotly.newPlot('finding2-chart', [heatmapTrace], layout, config);
+    })();
+  </script>
+  <script>
+    // ============================================================
+    // FINDING 3 CHART: Fed Funds Rate timeline with regime shading
+    //
+    // DATA SOURCE: data/processed/sector_rotation.db (macro_indicators
+    // table) produced by NB02 from FRED FEDFUNDS series. The constants
+    // below are exported from NB03 Section 10. To regenerate, re-run
+    // NB03 Section 10 and replace the ffDates / ffRates / ffRuns blocks.
+    // ============================================================
+    (function () {
+
+      // === Fed Funds Rate monthly series ===
+      var ffDates = ["2000-01-01", "2000-02-01", "2000-03-01", "2000-04-01", "2000-05-01", "2000-06-01", "2000-07-01", "2000-08-01", "2000-09-01", "2000-10-01", "2000-11-01", "2000-12-01", "2001-01-01", "2001-02-01", "2001-03-01", "2001-04-01", "2001-05-01", "2001-06-01", "2001-07-01", "2001-08-01", "2001-09-01", "2001-10-01", "2001-11-01", "2001-12-01", "2002-01-01", "2002-02-01", "2002-03-01", "2002-04-01", "2002-05-01", "2002-06-01", "2002-07-01", "2002-08-01", "2002-09-01", "2002-10-01", "2002-11-01", "2002-12-01", "2003-01-01", "2003-02-01", "2003-03-01", "2003-04-01", "2003-05-01", "2003-06-01", "2003-07-01", "2003-08-01", "2003-09-01", "2003-10-01", "2003-11-01", "2003-12-01", "2004-01-01", "2004-02-01", "2004-03-01", "2004-04-01", "2004-05-01", "2004-06-01", "2004-07-01", "2004-08-01", "2004-09-01", "2004-10-01", "2004-11-01", "2004-12-01", "2005-01-01", "2005-02-01", "2005-03-01", "2005-04-01", "2005-05-01", "2005-06-01", "2005-07-01", "2005-08-01", "2005-09-01", "2005-10-01", "2005-11-01", "2005-12-01", "2006-01-01", "2006-02-01", "2006-03-01", "2006-04-01", "2006-05-01", "2006-06-01", "2006-07-01", "2006-08-01", "2006-09-01", "2006-10-01", "2006-11-01", "2006-12-01", "2007-01-01", "2007-02-01", "2007-03-01", "2007-04-01", "2007-05-01", "2007-06-01", "2007-07-01", "2007-08-01", "2007-09-01", "2007-10-01", "2007-11-01", "2007-12-01", "2008-01-01", "2008-02-01", "2008-03-01", "2008-04-01", "2008-05-01", "2008-06-01", "2008-07-01", "2008-08-01", "2008-09-01", "2008-10-01", "2008-11-01", "2008-12-01", "2009-01-01", "2009-02-01", "2009-03-01", "2009-04-01", "2009-05-01", "2009-06-01", "2009-07-01", "2009-08-01", "2009-09-01", "2009-10-01", "2009-11-01", "2009-12-01", "2010-01-01", "2010-02-01", "2010-03-01", "2010-04-01", "2010-05-01", "2010-06-01", "2010-07-01", "2010-08-01", "2010-09-01", "2010-10-01", "2010-11-01", "2010-12-01", "2011-01-01", "2011-02-01", "2011-03-01", "2011-04-01", "2011-05-01", "2011-06-01", "2011-07-01", "2011-08-01", "2011-09-01", "2011-10-01", "2011-11-01", "2011-12-01", "2012-01-01", "2012-02-01", "2012-03-01", "2012-04-01", "2012-05-01", "2012-06-01", "2012-07-01", "2012-08-01", "2012-09-01", "2012-10-01", "2012-11-01", "2012-12-01", "2013-01-01", "2013-02-01", "2013-03-01", "2013-04-01", "2013-05-01", "2013-06-01", "2013-07-01", "2013-08-01", "2013-09-01", "2013-10-01", "2013-11-01", "2013-12-01", "2014-01-01", "2014-02-01", "2014-03-01", "2014-04-01", "2014-05-01", "2014-06-01", "2014-07-01", "2014-08-01", "2014-09-01", "2014-10-01", "2014-11-01", "2014-12-01", "2015-01-01", "2015-02-01", "2015-03-01", "2015-04-01", "2015-05-01", "2015-06-01", "2015-07-01", "2015-08-01", "2015-09-01", "2015-10-01", "2015-11-01", "2015-12-01", "2016-01-01", "2016-02-01", "2016-03-01", "2016-04-01", "2016-05-01", "2016-06-01", "2016-07-01", "2016-08-01", "2016-09-01", "2016-10-01", "2016-11-01", "2016-12-01", "2017-01-01", "2017-02-01", "2017-03-01", "2017-04-01", "2017-05-01", "2017-06-01", "2017-07-01", "2017-08-01", "2017-09-01", "2017-10-01", "2017-11-01", "2017-12-01", "2018-01-01", "2018-02-01", "2018-03-01", "2018-04-01", "2018-05-01", "2018-06-01", "2018-07-01", "2018-08-01", "2018-09-01", "2018-10-01", "2018-11-01", "2018-12-01", "2019-01-01", "2019-02-01", "2019-03-01", "2019-04-01", "2019-05-01", "2019-06-01", "2019-07-01", "2019-08-01", "2019-09-01", "2019-10-01", "2019-11-01", "2019-12-01", "2020-01-01", "2020-02-01", "2020-03-01", "2020-04-01", "2020-05-01", "2020-06-01", "2020-07-01", "2020-08-01", "2020-09-01", "2020-10-01", "2020-11-01", "2020-12-01", "2021-01-01", "2021-02-01", "2021-03-01", "2021-04-01", "2021-05-01", "2021-06-01", "2021-07-01", "2021-08-01", "2021-09-01", "2021-10-01", "2021-11-01", "2021-12-01", "2022-01-01", "2022-02-01", "2022-03-01", "2022-04-01", "2022-05-01", "2022-06-01", "2022-07-01", "2022-08-01", "2022-09-01", "2022-10-01", "2022-11-01", "2022-12-01", "2023-01-01", "2023-02-01", "2023-03-01", "2023-04-01", "2023-05-01", "2023-06-01", "2023-07-01", "2023-08-01", "2023-09-01", "2023-10-01", "2023-11-01", "2023-12-01", "2024-01-01", "2024-02-01", "2024-03-01", "2024-04-01", "2024-05-01", "2024-06-01", "2024-07-01", "2024-08-01", "2024-09-01", "2024-10-01", "2024-11-01", "2024-12-01", "2025-01-01", "2025-02-01", "2025-03-01", "2025-04-01", "2025-05-01", "2025-06-01", "2025-07-01", "2025-08-01", "2025-09-01", "2025-10-01", "2025-11-01", "2025-12-01", "2026-01-01", "2026-02-01", "2026-03-01"];
+
+      var ffRates = [5.45, 5.73, 5.85, 6.02, 6.27, 6.53, 6.54, 6.5, 6.52, 6.51, 6.51, 6.4, 5.98, 5.49, 5.31, 4.8, 4.21, 3.97, 3.77, 3.65, 3.07, 2.49, 2.09, 1.82, 1.73, 1.74, 1.73, 1.75, 1.75, 1.75, 1.73, 1.74, 1.75, 1.75, 1.34, 1.24, 1.24, 1.26, 1.25, 1.26, 1.26, 1.22, 1.01, 1.03, 1.01, 1.01, 1.0, 0.98, 1.0, 1.01, 1.0, 1.0, 1.0, 1.03, 1.26, 1.43, 1.61, 1.76, 1.93, 2.16, 2.28, 2.5, 2.63, 2.79, 3.0, 3.04, 3.26, 3.5, 3.62, 3.78, 4.0, 4.16, 4.29, 4.49, 4.59, 4.79, 4.94, 4.99, 5.24, 5.25, 5.25, 5.25, 5.25, 5.24, 5.25, 5.26, 5.26, 5.25, 5.25, 5.25, 5.26, 5.02, 4.94, 4.76, 4.49, 4.24, 3.94, 2.98, 2.61, 2.28, 1.98, 2.0, 2.01, 2.0, 1.81, 0.97, 0.39, 0.16, 0.15, 0.22, 0.18, 0.15, 0.18, 0.21, 0.16, 0.16, 0.15, 0.12, 0.12, 0.12, 0.11, 0.13, 0.16, 0.2, 0.2, 0.18, 0.18, 0.19, 0.19, 0.19, 0.19, 0.18, 0.17, 0.16, 0.14, 0.1, 0.09, 0.09, 0.07, 0.1, 0.08, 0.07, 0.08, 0.07, 0.08, 0.1, 0.13, 0.14, 0.16, 0.16, 0.16, 0.13, 0.14, 0.16, 0.16, 0.16, 0.14, 0.15, 0.14, 0.15, 0.11, 0.09, 0.09, 0.08, 0.08, 0.09, 0.08, 0.09, 0.07, 0.07, 0.08, 0.09, 0.09, 0.1, 0.09, 0.09, 0.09, 0.09, 0.09, 0.12, 0.11, 0.11, 0.11, 0.12, 0.12, 0.13, 0.13, 0.14, 0.14, 0.12, 0.12, 0.24, 0.34, 0.38, 0.36, 0.37, 0.37, 0.38, 0.39, 0.4, 0.4, 0.4, 0.41, 0.54, 0.65, 0.66, 0.79, 0.9, 0.91, 1.04, 1.15, 1.16, 1.15, 1.15, 1.16, 1.3, 1.41, 1.42, 1.51, 1.69, 1.7, 1.82, 1.91, 1.91, 1.95, 2.19, 2.2, 2.27, 2.4, 2.4, 2.41, 2.42, 2.39, 2.38, 2.4, 2.13, 2.04, 1.83, 1.55, 1.55, 1.55, 1.58, 0.65, 0.05, 0.05, 0.08, 0.09, 0.1, 0.09, 0.09, 0.09, 0.09, 0.09, 0.08, 0.07, 0.07, 0.06, 0.08, 0.1, 0.09, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.2, 0.33, 0.77, 1.21, 1.68, 2.33, 2.56, 3.08, 3.78, 4.1, 4.33, 4.57, 4.65, 4.83, 5.06, 5.08, 5.12, 5.33, 5.33, 5.33, 5.33, 5.33, 5.33, 5.33, 5.33, 5.33, 5.33, 5.33, 5.33, 5.33, 5.13, 4.83, 4.64, 4.48, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.22, 4.09, 3.88, 3.72, 3.64, 3.64, 3.64];
+
+      // === Regime runs (contiguous blocks of hiking/cutting/neutral) ===
+      var ffRuns = [{"regime": "hiking", "start": "2000-01-01", "end": "2000-08-01"}, {"regime": "cutting", "start": "2000-09-01", "end": "2000-10-01"}, {"regime": "hiking", "start": "2000-11-01", "end": "2000-11-01"}, {"regime": "cutting", "start": "2000-12-01", "end": "2002-03-01"}, {"regime": "hiking", "start": "2002-04-01", "end": "2002-06-01"}, {"regime": "cutting", "start": "2002-07-01", "end": "2002-08-01"}, {"regime": "neutral", "start": "2002-09-01", "end": "2002-09-01"}, {"regime": "hiking", "start": "2002-10-01", "end": "2002-10-01"}, {"regime": "cutting", "start": "2002-11-01", "end": "2003-02-01"}, {"regime": "hiking", "start": "2003-03-01", "end": "2003-04-01"}, {"regime": "neutral", "start": "2003-05-01", "end": "2003-05-01"}, {"regime": "cutting", "start": "2003-06-01", "end": "2003-09-01"}, {"regime": "neutral", "start": "2003-10-01", "end": "2003-10-01"}, {"regime": "cutting", "start": "2003-11-01", "end": "2004-01-01"}, {"regime": "hiking", "start": "2004-02-01", "end": "2004-03-01"}, {"regime": "neutral", "start": "2004-04-01", "end": "2004-04-01"}, {"regime": "cutting", "start": "2004-05-01", "end": "2004-05-01"}, {"regime": "hiking", "start": "2004-06-01", "end": "2006-10-01"}, {"regime": "neutral", "start": "2006-11-01", "end": "2006-11-01"}, {"regime": "cutting", "start": "2006-12-01", "end": "2006-12-01"}, {"regime": "neutral", "start": "2007-01-01", "end": "2007-01-01"}, {"regime": "hiking", "start": "2007-02-01", "end": "2007-03-01"}, {"regime": "neutral", "start": "2007-04-01", "end": "2007-04-01"}, {"regime": "cutting", "start": "2007-05-01", "end": "2007-06-01"}, {"regime": "hiking", "start": "2007-07-01", "end": "2007-07-01"}, {"regime": "cutting", "start": "2007-08-01", "end": "2008-07-01"}, {"regime": "hiking", "start": "2008-08-01", "end": "2008-08-01"}, {"regime": "cutting", "start": "2008-09-01", "end": "2009-02-01"}, {"regime": "hiking", "start": "2009-03-01", "end": "2009-03-01"}, {"regime": "neutral", "start": "2009-04-01", "end": "2009-04-01"}, {"regime": "cutting", "start": "2009-05-01", "end": "2009-05-01"}, {"regime": "hiking", "start": "2009-06-01", "end": "2009-07-01"}, {"regime": "cutting", "start": "2009-08-01", "end": "2010-01-01"}, {"regime": "hiking", "start": "2010-02-01", "end": "2010-06-01"}, {"regime": "cutting", "start": "2010-07-01", "end": "2010-08-01"}, {"regime": "hiking", "start": "2010-09-01", "end": "2010-10-01"}, {"regime": "neutral", "start": "2010-11-01", "end": "2010-11-01"}, {"regime": "cutting", "start": "2010-12-01", "end": "2011-07-01"}, {"regime": "hiking", "start": "2011-08-01", "end": "2011-08-01"}, {"regime": "cutting", "start": "2011-09-01", "end": "2011-09-01"}, {"regime": "neutral", "start": "2011-10-01", "end": "2011-10-01"}, {"regime": "cutting", "start": "2011-11-01", "end": "2011-12-01"}, {"regime": "hiking", "start": "2012-01-01", "end": "2012-07-01"}, {"regime": "cutting", "start": "2012-08-01", "end": "2012-09-01"}, {"regime": "neutral", "start": "2012-10-01", "end": "2012-10-01"}, {"regime": "hiking", "start": "2012-11-01", "end": "2012-12-01"}, {"regime": "cutting", "start": "2013-01-01", "end": "2013-03-01"}, {"regime": "hiking", "start": "2013-04-01", "end": "2013-04-01"}, {"regime": "cutting", "start": "2013-05-01", "end": "2013-09-01"}, {"regime": "neutral", "start": "2013-10-01", "end": "2013-11-01"}, {"regime": "hiking", "start": "2013-12-01", "end": "2013-12-01"}, {"regime": "cutting", "start": "2014-01-01", "end": "2014-03-01"}, {"regime": "hiking", "start": "2014-04-01", "end": "2014-06-01"}, {"regime": "neutral", "start": "2014-07-01", "end": "2014-08-01"}, {"regime": "cutting", "start": "2014-09-01", "end": "2014-09-01"}, {"regime": "neutral", "start": "2014-10-01", "end": "2014-11-01"}, {"regime": "hiking", "start": "2014-12-01", "end": "2015-02-01"}, {"regime": "cutting", "start": "2015-03-01", "end": "2015-03-01"}, {"regime": "hiking", "start": "2015-04-01", "end": "2015-09-01"}, {"regime": "cutting", "start": "2015-10-01", "end": "2015-11-01"}, {"regime": "hiking", "start": "2015-12-01", "end": "2016-04-01"}, {"regime": "cutting", "start": "2016-05-01", "end": "2016-05-01"}, {"regime": "hiking", "start": "2016-06-01", "end": "2017-09-01"}, {"regime": "neutral", "start": "2017-10-01", "end": "2017-11-01"}, {"regime": "hiking", "start": "2017-12-01", "end": "2019-04-01"}, {"regime": "cutting", "start": "2019-05-01", "end": "2020-01-01"}, {"regime": "hiking", "start": "2020-02-01", "end": "2020-02-01"}, {"regime": "cutting", "start": "2020-03-01", "end": "2020-06-01"}, {"regime": "hiking", "start": "2020-07-01", "end": "2020-09-01"}, {"regime": "neutral", "start": "2020-10-01", "end": "2020-10-01"}, {"regime": "cutting", "start": "2020-11-01", "end": "2020-11-01"}, {"regime": "neutral", "start": "2020-12-01", "end": "2021-01-01"}, {"regime": "cutting", "start": "2021-02-01", "end": "2021-05-01"}, {"regime": "hiking", "start": "2021-06-01", "end": "2021-08-01"}, {"regime": "neutral", "start": "2021-09-01", "end": "2021-09-01"}, {"regime": "cutting", "start": "2021-10-01", "end": "2021-11-01"}, {"regime": "neutral", "start": "2021-12-01", "end": "2022-02-01"}, {"regime": "hiking", "start": "2022-03-01", "end": "2023-10-01"}, {"regime": "neutral", "start": "2023-11-01", "end": "2024-08-01"}, {"regime": "cutting", "start": "2024-09-01", "end": "2025-03-01"}, {"regime": "neutral", "start": "2025-04-01", "end": "2025-08-01"}, {"regime": "cutting", "start": "2025-09-01", "end": "2026-03-01"}];
+
+      // Build regime shading shapes for the layout
+      var regimeColors = {
+        'hiking': 'rgba(44, 160, 44, 0.18)',
+        'cutting': 'rgba(192, 57, 43, 0.18)',
+        'neutral': 'rgba(127, 127, 127, 0.18)'
+      };
+
+      var shapes = ffRuns.map(function (run) {
+        return {
+          type: 'rect',
+          xref: 'x',
+          yref: 'paper',
+          x0: run.start,
+          x1: run.end,
+          y0: 0,
+          y1: 1,
+          fillcolor: regimeColors[run.regime],
+          line: { width: 0 },
+          layer: 'below'
+        };
+      });
+
+      // Crisis annotations
+      var crisisAnnotations = [
+        { x: '2001-08-01', y: 6.6, text: '<i>Dot-com bust</i>' },
+        { x: '2008-10-01', y: 6.6, text: '<i>GFC</i>' },
+        { x: '2020-04-01', y: 6.6, text: '<i>COVID</i>' }
+      ].map(function (a) {
+        return {
+          x: a.x,
+          y: a.y,
+          text: a.text,
+          showarrow: false,
+          font: { family: 'Georgia, serif', size: 11, color: '#555' },
+          xanchor: 'center'
+        };
+      });
+
+      // Fed Funds Rate line
+      var rateTrace = {
+        x: ffDates,
+        y: ffRates,
+        type: 'scatter',
+        mode: 'lines',
+        line: { color: '#1a1a1a', width: 1.8 },
+        name: 'Fed Funds Rate',
+        hovertemplate: '<b>%{x|%b %Y}</b><br>Rate: %{y:.2f}%<extra></extra>'
+      };
+
+      // Legend proxies for the shaded regimes
+      var legendTraces = [
+        { x: [null], y: [null], type: 'scatter', mode: 'markers', name: 'Hiking', marker: { color: '#2ca02c', size: 14, symbol: 'square', opacity: 0.5 } },
+        { x: [null], y: [null], type: 'scatter', mode: 'markers', name: 'Cutting', marker: { color: '#c0392b', size: 14, symbol: 'square', opacity: 0.5 } },
+        { x: [null], y: [null], type: 'scatter', mode: 'markers', name: 'Neutral', marker: { color: '#7f7f7f', size: 14, symbol: 'square', opacity: 0.5 } }
+      ];
+
+      var layout = {
+        title: {
+          text: 'Every cutting cycle in this sample coincides with a crisis',
+          font: { family: 'Georgia, serif', size: 16, color: '#1a1a1a' },
+          x: 0,
+          xanchor: 'left'
+        },
+        margin: { l: 60, r: 20, t: 70, b: 50 },
+        xaxis: {
+          type: 'date',
+          tickfont: { family: 'system-ui, sans-serif', size: 11, color: '#555' },
+          showgrid: false,
+          showline: true,
+          linecolor: '#e5e5e0',
+          tickformat: '%Y',
+          dtick: 'M24'
+        },
+        yaxis: {
+          title: { text: 'Federal Funds Rate (%)', font: { family: 'system-ui, sans-serif', size: 12, color: '#555' } },
+          tickfont: { family: 'system-ui, sans-serif', size: 11, color: '#555' },
+          gridcolor: '#e5e5e0',
+          range: [-0.3, 7.5]
+        },
+        shapes: shapes,
+        annotations: crisisAnnotations,
+        legend: {
+          x: 1,
+          xanchor: 'right',
+          y: 1.05,
+          orientation: 'h',
+          font: { family: 'system-ui, sans-serif', size: 11 }
+        },
+        plot_bgcolor: '#fafaf7',
+        paper_bgcolor: '#fafaf7',
+        hoverlabel: { bgcolor: '#0a2540', font: { color: '#fff', family: 'system-ui, sans-serif' } }
+      };
+
+      var config = {
+        responsive: true,
+        displayModeBar: false
+      };
+
+      Plotly.newPlot('finding3-chart', legendTraces.concat([rateTrace]), layout, config);
+    })();
+  </script>
+</body>
+</html>
