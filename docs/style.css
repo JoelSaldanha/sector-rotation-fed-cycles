@@ -1,0 +1,262 @@
+/* ============================================
+   DESIGN SYSTEM
+   Financial research note style.
+   Navy accent, serif headings, sans-serif body.
+   ============================================ */
+
+:root {
+  /* Colour palette */
+  --color-text: #1a1a1a;
+  --color-text-muted: #555;
+  --color-text-subtle: #6a6a6a;
+  --color-accent: #0a2540;        /* deep navy */
+  --color-accent-light: #1b3a6b;
+  --color-background: #fafaf7;    /* off-white, paper-like */
+  --color-border: #e5e5e0;
+  --color-callout-bg: #f0f2f7;
+  --color-callout-border: #0a2540;
+  --color-warning: #c0392b;
+
+  /* Typography */
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Courier New', monospace;
+
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+
+  /* Layout */
+  --max-width: 1100px;
+  --content-width: 720px;
+  --sidebar-width: 220px;
+}
+
+/* ============================================
+   RESET + BASE
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+/* Skip link: hidden until focused */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-accent);
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 1000;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Focus styles: visible navy outline for keyboard users */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Remove default focus outline only when :focus-visible is supported */
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================
+   PAGE HEADER
+   ============================================ */
+
+.page-header {
+  padding: var(--space-xl) 0 var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+  background-color: #fff;
+}
+
+.course-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.project-title {
+  font-family: var(--font-serif);
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-text);
+  margin-bottom: var(--space-sm);
+}
+
+.subtitle {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-md);
+  font-weight: 400;
+}
+
+.byline {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  margin-bottom: var(--space-xs);
+}
+
+.date {
+  font-size: 0.85rem;
+  color: var(--color-text-subtle);
+}
+
+/* ============================================
+   MAIN LAYOUT (content + sticky nav)
+   ============================================ */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-width);
+  gap: var(--space-xl);
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  align-items: start;
+}
+
+.content {
+  max-width: var(--content-width);
+}
+
+/* ============================================
+   STICKY NAVIGATION SIDEBAR
+   ============================================ */
+
+.sidebar-nav {
+  position: sticky;
+  top: var(--space-lg);
+  max-height: calc(100vh - var(--space-xl));
+  overflow-y: auto;
+  font-size: 0.85rem;
+  border-left: 2px solid var(--color-border);
+  padding-left: var(--space-md);
+}
+
+.nav-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.sidebar-nav ol {
+  list-style: none;
+  counter-reset: nav-counter;
+}
+
+.sidebar-nav li {
+  counter-increment: nav-counter;
+  margin-bottom: var(--space-xs);
+}
+
+.sidebar-nav a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  display: block;
+  padding: 0.15rem 0;
+  transition: color 0.15s ease;
+}
+
+.sidebar-nav a::before {
+  content: counter(nav-counter) ". ";
+  color: var(--color-text-subtle);
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a:focus {
+  color: var(--color-accent);
+}
+
+/* ============================================
+   PAGE FOOTER
+   ============================================ */
+
+.page-footer {
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-lg) 0;
+  font-size: 0.85rem;
+  color: var(--color-text-subtle);
+  text-align: center;
+  background-color: #fff;
+}
+
+.page-footer p {
+  margin-bottom: var(--space-xs);
+}
+
+.page-footer a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.page-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================
+   RESPONSIVE: collapse sidebar on narrow screens
+   ============================================ */
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-nav {
+    position: static;
+    border-left: none;
+    border-top: 2px solid var(--color-border);
+    padding-left: 0;
+    padding-top: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+
+  .project-title {
+    font-size: 2rem;
+  }
+}
