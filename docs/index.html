@@ -733,5 +733,51 @@ ALPHA_VANTAGE_KEY=your_alpha_vantage_key_here</code></pre>
       Plotly.newPlot('finding3-chart', legendTraces.concat([rateTrace]), layout, config);
     })();
   </script>
+  <script>
+    // ============================================================
+    // SCROLL-SPY NAV
+    // Highlights the sidebar nav item corresponding to the section
+    // currently in view. Uses IntersectionObserver for performance.
+    // ============================================================
+    (function () {
+      var navLinks = document.querySelectorAll('.sidebar-nav a');
+      var sections = [];
+
+      // Build a map of sections that have nav links pointing to them
+      navLinks.forEach(function (link) {
+        var id = link.getAttribute('href').replace('#', '');
+        var section = document.getElementById(id);
+        if (section) sections.push({ id: id, element: section, link: link });
+      });
+
+      // Track which sections are currently visible
+      var visibleSections = new Set();
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            visibleSections.add(entry.target.id);
+          } else {
+            visibleSections.delete(entry.target.id);
+          }
+        });
+
+        // Highlight the topmost visible section
+        navLinks.forEach(function (link) { link.classList.remove('active'); });
+
+        for (var i = 0; i < sections.length; i++) {
+          if (visibleSections.has(sections[i].id)) {
+            sections[i].link.classList.add('active');
+            break;
+          }
+        }
+      }, {
+        rootMargin: '-20% 0px -60% 0px',  // section is "active" when in upper portion of viewport
+        threshold: 0
+      });
+
+      sections.forEach(function (s) { observer.observe(s.element); });
+    })();
+  </script>
 </body>
 </html>
