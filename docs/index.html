@@ -737,46 +737,54 @@ ALPHA_VANTAGE_KEY=your_alpha_vantage_key_here</code></pre>
     // ============================================================
     // SCROLL-SPY NAV
     // Highlights the sidebar nav item corresponding to the section
-    // currently in view. Uses IntersectionObserver for performance.
+    // currently in view. Direct scroll-position approach for
+    // maximum reliability.
     // ============================================================
     (function () {
       var navLinks = document.querySelectorAll('.sidebar-nav a');
       var sections = [];
 
-      // Build a map of sections that have nav links pointing to them
       navLinks.forEach(function (link) {
         var id = link.getAttribute('href').replace('#', '');
         var section = document.getElementById(id);
         if (section) sections.push({ id: id, element: section, link: link });
       });
 
-      // Track which sections are currently visible
-      var visibleSections = new Set();
-
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            visibleSections.add(entry.target.id);
-          } else {
-            visibleSections.delete(entry.target.id);
-          }
-        });
-
-        // Highlight the topmost visible section
-        navLinks.forEach(function (link) { link.classList.remove('active'); });
+      function updateActiveNav() {
+        // Find which section is closest to the top of the viewport
+        var scrollY = window.scrollY + 150; // offset so a section "activates" when its heading is near the top
+        var activeIndex = 0;
 
         for (var i = 0; i < sections.length; i++) {
-          if (visibleSections.has(sections[i].id)) {
-            sections[i].link.classList.add('active');
+          var top = sections[i].element.offsetTop;
+          if (top <= scrollY) {
+            activeIndex = i;
+          } else {
             break;
           }
         }
-      }, {
-        rootMargin: '-100px 0px -50% 0px',  // section is "active" when its top is within the upper half of the viewport
-        threshold: 0
+
+        // Remove active class from all, add to the right one
+        navLinks.forEach(function (link) { link.classList.remove('active'); });
+        if (sections[activeIndex]) {
+          sections[activeIndex].link.classList.add('active');
+        }
+      }
+
+      // Throttle scroll events for performance
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            updateActiveNav();
+            ticking = false;
+          });
+          ticking = true;
+        }
       });
 
-      sections.forEach(function (s) { observer.observe(s.element); });
+      // Run once on load
+      updateActiveNav();
     })();
   </script>
 </body>
