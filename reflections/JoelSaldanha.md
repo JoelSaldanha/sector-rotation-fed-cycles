@@ -26,7 +26,6 @@
 - Filed [Issue #9](https://github.com/lse-ds105/group-project-git-it-done/issues/9) documenting a methodological limitation in the rate-cycle labelling I discovered during NB03; linked from Finding 3 and Limitations on the website
 - Created the GitHub project board mid-term once we recognised it as assessed evidence. The lateness is real as initial coordination was WhatsApp + in-person meetings and I would set the board up from day one in a future project. I populated all items, set up status columns, and brought prior work into order on the board after figuring out how the projectboard works with claude.
 
-## Learning integration
 
 ## Learning integration
 
