@@ -117,7 +117,7 @@
     <h2>Cyclicals and defensives are mirror images across regimes</h2>
 
     <p>
-      The bar chart above strips the story down. The heatmap below shows the full picture, with the neutral column included for transparency.
+      The bar chart above strips the story down. The heatmap below shows the full picture, with the neutral column included for transparency. The neutral column saturates at the top of the colour scale because its values are inflated by sample bias, not because those returns are meaningfully comparable to hiking or cutting cycles. <a href="#limitations">Limitations</a> explains why.
     </p>
 
     <figure class="chart-figure">
@@ -321,17 +321,21 @@
         z: z,
         type: 'heatmap',
         colorscale: [
-          [0, '#c0392b'],      // red for low/negative
-          [0.5, '#f5e6a8'],    // pale yellow at the midpoint
-          [1, '#2ca02c']       // green for high/positive
+          [0, '#c0392b'],
+          [0.5, '#f5e6a8'],
+          [1, '#2ca02c']
         ],
+        zmin: -2,
+        zmax: 15,
         showscale: true,
         hovertemplate: '<b>%{y}</b><br>%{x}: %{z:.1f}%<extra></extra>',
         colorbar: {
           title: { text: 'Return (%)', font: { family: 'system-ui, sans-serif', size: 11, color: '#555' } },
           tickfont: { family: 'system-ui, sans-serif', size: 10, color: '#555' },
           thickness: 12,
-          len: 0.75
+          len: 0.75,
+          tickvals: [-2, 0, 5, 10, 15],
+          ticktext: ['−2%', '0%', '5%', '10%', '≥15%']
         }
       };
 
@@ -360,7 +364,7 @@
           x: 0,
           xanchor: 'left'
         },
-        margin: { l: 180, r: 80, t: 100, b: 50 },
+        margin: { l: 180, r: 80, t: 70, b: 50 },
         xaxis: {
           side: 'top',
           tickfont: { family: 'system-ui, sans-serif', size: 12, color: '#555' }
@@ -369,17 +373,7 @@
           tickfont: { family: 'system-ui, sans-serif', size: 12, color: '#555' },
           autorange: 'reversed'
         },
-        annotations: annotations.concat([{
-          xref: 'paper',
-          yref: 'paper',
-          x: 0,
-          y: 1.01,
-          xanchor: 'left',
-          yanchor: 'bottom',
-          text: '<i>Neutral column shown for transparency only — see Limitations for why it overstates returns.</i>',
-          showarrow: false,
-          font: { family: 'system-ui, sans-serif', size: 11, color: '#6a6a6a' }
-        }]),
+        annotations: annotations,
         plot_bgcolor: '#fafaf7',
         paper_bgcolor: '#fafaf7',
         hoverlabel: { bgcolor: '#0a2540', font: { color: '#fff', family: 'system-ui, sans-serif' } }
