@@ -735,10 +735,9 @@ ALPHA_VANTAGE_KEY=your_alpha_vantage_key_here</code></pre>
   </script>
   <script>
     // ============================================================
-    // SCROLL-SPY NAV
-    // Highlights the sidebar nav item corresponding to the section
-    // currently in view. Direct scroll-position approach for
-    // maximum reliability.
+    // SCROLL-SPY NAV (inline-style approach)
+    // Highlights the sidebar nav item using direct style updates,
+    // bypassing class-based CSS to avoid specificity conflicts.
     // ============================================================
     (function () {
       var navLinks = document.querySelectorAll('.sidebar-nav a');
@@ -750,28 +749,41 @@ ALPHA_VANTAGE_KEY=your_alpha_vantage_key_here</code></pre>
         if (section) sections.push({ id: id, element: section, link: link });
       });
 
-      function updateActiveNav() {
-        // Find which section is closest to the top of the viewport
-        var scrollY = window.scrollY + 150; // offset so a section "activates" when its heading is near the top
-        var activeIndex = 0;
+      function setActive(activeLink) {
+        navLinks.forEach(function (link) {
+          if (link === activeLink) {
+            link.style.color = '#0a2540';
+            link.style.fontWeight = '600';
+            link.style.backgroundColor = 'rgba(10, 37, 64, 0.06)';
+            link.style.borderLeft = '3px solid #0a2540';
+            link.style.marginLeft = '-26px';
+            link.style.paddingLeft = '23px';
+            link.style.transition = 'all 0.2s ease';
+          } else {
+            link.style.color = '';
+            link.style.fontWeight = '';
+            link.style.backgroundColor = '';
+            link.style.borderLeft = '';
+            link.style.marginLeft = '';
+            link.style.paddingLeft = '';
+            link.style.transition = '';
+          }
+        });
+      }
 
+      function updateActiveNav() {
+        var scrollY = window.scrollY + 150;
+        var activeIndex = 0;
         for (var i = 0; i < sections.length; i++) {
-          var top = sections[i].element.offsetTop;
-          if (top <= scrollY) {
+          if (sections[i].element.offsetTop <= scrollY) {
             activeIndex = i;
           } else {
             break;
           }
         }
-
-        // Remove active class from all, add to the right one
-        navLinks.forEach(function (link) { link.classList.remove('active'); });
-        if (sections[activeIndex]) {
-          sections[activeIndex].link.classList.add('active');
-        }
+        if (sections[activeIndex]) setActive(sections[activeIndex].link);
       }
 
-      // Throttle scroll events for performance
       var ticking = false;
       window.addEventListener('scroll', function () {
         if (!ticking) {
@@ -783,9 +795,6 @@ ALPHA_VANTAGE_KEY=your_alpha_vantage_key_here</code></pre>
         }
       });
 
-      // Run once on load
       updateActiveNav();
     })();
   </script>
-</body>
-</html>

@@ -212,20 +212,6 @@ a:focus:not(:focus-visible) {
   color: var(--color-accent);
 }
 
-.sidebar-nav a.active {
-  color: var(--color-accent);
-  font-weight: 600;
-  background-color: rgba(10, 37, 64, 0.04);
-  border-left: 2px solid var(--color-accent);
-  margin-left: calc(-1 * var(--space-md) - 2px);
-  padding-left: calc(var(--space-md));
-  transition: all 0.2s ease;
-}
-
-.sidebar-nav a.active::before {
-  color: var(--color-accent);
-}
-
 /* ============================================
    PAGE FOOTER
    ============================================ */
