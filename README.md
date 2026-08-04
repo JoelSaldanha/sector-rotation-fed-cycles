@@ -2,8 +2,7 @@
 
 # Sector Rotation & Federal Reserve Rate Cycles
 
-**Live website:** joelsaldanha.github.io/sector-rotation-fed-cycles
-
+**Live website:** https://joelsaldanha.github.io/sector-rotation-fed-cycles/
 Python data pipeline analysing US equity sector rotation across Federal Reserve rate cycles | FRED & Alpha Vantage APIs | SQLite | GitHub Pages
 
 **Research Question:** How do US equity sector returns vary across Federal Reserve rate hiking and cutting cycles, and which sectors consistently rotate into outperformance as monetary policy shifts?
