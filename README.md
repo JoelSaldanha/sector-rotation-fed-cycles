@@ -1,7 +1,5 @@
 > Originally built as group coursework for LSE DS105, March to May 2026. Republished under my personal account after grade release, with permission from co-authors Hugo Whyte and Parthiv Chakadath. Awarded First Class.
 
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/RENlL0QN)
-
 # Sector Rotation & Federal Reserve Rate Cycles
 
 **Live website:** https://lse-ds105.github.io/group-project-git-it-done/
