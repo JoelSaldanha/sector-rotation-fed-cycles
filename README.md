@@ -2,7 +2,7 @@
 
 # Sector Rotation & Federal Reserve Rate Cycles
 
-**Live website:** https://lse-ds105.github.io/group-project-git-it-done/
+**Live website:** joelsaldanha.github.io/sector-rotation-fed-cycles
 
 Python data pipeline analysing US equity sector rotation across Federal Reserve rate cycles | FRED & Alpha Vantage APIs | SQLite | GitHub Pages
 
